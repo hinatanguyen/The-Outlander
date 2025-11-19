@@ -11,5 +11,6 @@ config_version=5
 [application]
 
 config/name="新しいゲームプロジェクト"
+run/main_scene="uid://carsnogy8cle5"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
