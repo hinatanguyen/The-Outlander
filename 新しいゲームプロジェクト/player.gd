@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal health_changed(new_value)
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -650.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -10,7 +12,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var is_attacking = false
 var is_hurt = false
 var is_dead = false
-var health = 3
+
+# You set this to 100, so make sure ProgressBar MaxValue is 100 too!
+var health = 100 
 
 func _physics_process(delta):
 	if is_dead: return 
@@ -27,12 +31,12 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# ATTACK
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and is_on_floor() and not is_attacking:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		perform_attack()
 	
-	# TEST DAMAGE
-	if Input.is_key_pressed(KEY_H):
-		take_damage()
+	# --- I DELETED THE "H" KEY CHECK HERE ---
+	# We only want it in _unhandled_input at the bottom
+	# otherwise it drains health too fast!
 
 	# MOVEMENT
 	if not is_attacking:
@@ -56,13 +60,17 @@ func _physics_process(delta):
 
 func perform_attack():
 	is_attacking = true
-	velocity.x = 0
+	if is_on_floor():
+		velocity.x = 0		
 	anim.play("attack")
 
 func take_damage():
 	if is_hurt or is_dead: return
 	
 	health -= 1
+	health_changed.emit(health)
+	print("Current Health: ", health) # Check Output to see if this numbers goes down
+	
 	if health <= 0:
 		die()
 	else:
@@ -77,9 +85,7 @@ func die():
 	collision_shape.set_deferred("disabled", true)
 	print("Player Died")
 
-# This runs automatically whenever ANY animation finishes (attack, hurt, death)
 func _on_animated_sprite_2d_animation_finished():
-	# Check WHICH animation just finished
 	if anim.animation == "attack":
 		is_attacking = false
 		anim.play("idle")
@@ -88,9 +94,8 @@ func _on_animated_sprite_2d_animation_finished():
 		is_hurt = false
 		anim.play("idle")
 
+# This handles the single key press
 func _unhandled_input(event):
-	# Check if the event is a Key Press, specifically the "H" key
 	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_H:
-			print("H Key Pressed! Taking Damage...") # Debug message
+		if event.pressed and event.keycode == KEY_H:	
 			take_damage()

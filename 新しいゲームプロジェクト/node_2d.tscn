@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=48 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dl402pvdsimaw" path="res://Character/MainCharacter/Soldier-Attack01.png" id="4_rj586"]
 [ext_resource type="Texture2D" uid="uid://bcfovwyxm43a7" path="res://Character/MainCharacter/Soldier-Death.png" id="5_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://cf2nxnxbkcqah" path="res://Character/MainCharacter/Soldier-Hurt.png" id="6_ir8iy"]
+[ext_resource type="Script" uid="uid://dt24fa62owx7r" path="res://hud.gd" id="9_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://bcy4juutbqj73" path="res://UI/health_bar_decoration.png" id="10_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_hqns4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1665,4 +1668,33 @@ animation = &"hurt"
 position = Vector2(-25.000002, 19)
 shape = SubResource("CapsuleShape2D_7vxoj")
 
+[node name="HUD" type="CanvasLayer" parent="World/Player"]
+script = ExtResource("9_4d7sh")
+
+[node name="UI_Container" type="Control" parent="World/Player/HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBarFrame" type="TextureRect" parent="World/Player/HUD/UI_Container"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 25.0
+offset_right = 179.0
+offset_bottom = 65.0
+texture = ExtResource("10_ir8iy")
+
+[node name="HealthFill" type="TextureRect" parent="World/Player/HUD/UI_Container/HealthBarFrame"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 1.0
+offset_right = 174.0
+offset_bottom = 40.0
+texture = ExtResource("11_hqns4")
+
+[connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
+[connection signal="health_changed" from="World/Player" to="World/Player/HUD" method="_on_player_health_changed"]
 [connection signal="animation_finished" from="World/Player/AnimatedSprite2D" to="World/Player" method="_on_animated_sprite_2d_animation_finished"]
