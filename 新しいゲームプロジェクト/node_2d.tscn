@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=51 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -12,7 +12,8 @@
 [ext_resource type="Script" uid="uid://dt24fa62owx7r" path="res://hud.gd" id="9_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://bcy4juutbqj73" path="res://UI/health_bar_decoration.png" id="10_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_hqns4"]
-[ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="13_0h7mo"]
+[ext_resource type="Script" uid="uid://q38mrbkgpvlo" path="res://enemy_spawner.gd" id="13_0h7mo"]
+[ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="14_nr8wp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1062,7 +1063,9 @@ texture = ExtResource("2_epypp")
 15:5/0 = 0
 15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:5/0 = 0
+16:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:5/0 = 0
+17:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:5/0 = 0
 18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:5/0 = 0
@@ -1626,7 +1629,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7vxoj"]
-radius = 8.0
+radius = 7.6666718
 height = 18.666666
 
 [node name="Node2D" type="Node2D"]
@@ -1673,7 +1676,7 @@ sprite_frames = SubResource("SpriteFrames_fs4d3")
 animation = &"hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Player"]
-position = Vector2(1.3333321, 2.6666641)
+position = Vector2(0.6666654, 2.6666641)
 shape = SubResource("CapsuleShape2D_7vxoj")
 
 [node name="HUD" type="CanvasLayer" parent="World/Player"]
@@ -1707,8 +1710,16 @@ offset_right = 174.0
 offset_bottom = 40.0
 texture = ExtResource("11_hqns4")
 
-[node name="Orc" parent="." instance=ExtResource("13_0h7mo")]
-scale = Vector2(3, 3)
+[node name="EnemySpawner" type="Node2D" parent="."]
+position = Vector2(-82, -69)
+script = ExtResource("13_0h7mo")
+enemy_scene = ExtResource("14_nr8wp")
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(-123, -117)
+
+[node name="Marker2D2" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(197, -100)
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/Player/HUD" method="_on_player_health_changed"]

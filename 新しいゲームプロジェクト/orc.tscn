@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://dgdjco784tj1h"]
+[gd_scene load_steps=39 format=3 uid="uid://dgdjco784tj1h"]
 
 [ext_resource type="Script" uid="uid://bqku848v5uqq4" path="res://orc.gd" id="1_31h1d"]
 [ext_resource type="Texture2D" uid="uid://i4kt8oeoive4" path="res://Character/NormalEnemy/Orc-Attack01.png" id="1_vumo0"]
@@ -232,21 +232,26 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vumo0"]
-radius = 8.0
+radius = 25.317978
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_31h1d"]
-radius = 9.055386
+radius = 26.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_31h1d"]
+size = Vector2(25, 51)
 
 [node name="Orc" type="CharacterBody2D" groups=["enemy"]]
+z_index = 5
 collision_layer = 16
 script = ExtResource("1_31h1d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_h24kr")
-animation = &"death"
+animation = &"hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(-1, 0)
 shape = SubResource("CircleShape2D_vumo0")
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -254,7 +259,17 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(1, 0)
+position = Vector2(-1, 0)
 shape = SubResource("CircleShape2D_31h1d")
 
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+position = Vector2(32.5, -0.5)
+shape = SubResource("RectangleShape2D_31h1d")
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]
