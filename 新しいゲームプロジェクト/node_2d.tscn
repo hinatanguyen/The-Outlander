@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=49 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cqhkkgs5ohoo8" path="res://player.gd" id="3_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://clmbuu7xxhojh" path="res://Character/MainCharacter/Soldier-Walk.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://dl402pvdsimaw" path="res://Character/MainCharacter/Soldier-Attack01.png" id="4_rj586"]
+[ext_resource type="PackedScene" uid="uid://l18cd7hotqki" path="res://bullet.tscn" id="4_x0ka3"]
 [ext_resource type="Texture2D" uid="uid://bcfovwyxm43a7" path="res://Character/MainCharacter/Soldier-Death.png" id="5_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://cf2nxnxbkcqah" path="res://Character/MainCharacter/Soldier-Hurt.png" id="6_ir8iy"]
 [ext_resource type="Script" uid="uid://dt24fa62owx7r" path="res://hud.gd" id="9_4d7sh"]
@@ -1628,6 +1629,7 @@ radius = 8.0
 height = 18.666666
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(576, 325)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -0.99999964)
@@ -1656,16 +1658,21 @@ tile_set = SubResource("TileSet_q6r6c")
 scale = Vector2(3, 3)
 
 [node name="Player" type="CharacterBody2D" parent="World"]
+position = Vector2(7.666667, 2.3333335)
 script = ExtResource("3_q6r6c")
+bullet_scene = ExtResource("4_x0ka3")
+
+[node name="Muzzle" type="Marker2D" parent="World/Player"]
+position = Vector2(10.666658, 4.33333)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="World/Player"]
-position = Vector2(-24.666668, 21.333336)
+position = Vector2(2.6666667, 5.000003)
 scale = Vector2(1.01, 0.98)
 sprite_frames = SubResource("SpriteFrames_fs4d3")
 animation = &"hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Player"]
-position = Vector2(-25.000002, 19)
+position = Vector2(1.3333321, 2.6666641)
 shape = SubResource("CapsuleShape2D_7vxoj")
 
 [node name="HUD" type="CanvasLayer" parent="World/Player"]
@@ -1676,6 +1683,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = 6.0
+offset_right = 17.0
+offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 

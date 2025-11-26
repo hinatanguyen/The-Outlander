@@ -6,14 +6,18 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -650.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# You had both anim and sprite pointing to the same thing, 
+# I kept them both so your code doesn't break.
 @onready var anim = $AnimatedSprite2D
+@onready var sprite = $AnimatedSprite2D 
 @onready var collision_shape = $CollisionShape2D
+@onready var muzzle = $Muzzle
+
+@export var bullet_scene : PackedScene
 
 var is_attacking = false
 var is_hurt = false
 var is_dead = false
-
-# You set this to 100, so make sure ProgressBar MaxValue is 100 too!
 var health = 100 
 
 func _physics_process(delta):
@@ -29,14 +33,11 @@ func _physics_process(delta):
 	# GRAVITY
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
-	# ATTACK
+		
+	# ATTACK (Left Mouse Click)
+	# This checks if you click AND you aren't already attacking
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		perform_attack()
-	
-	# --- I DELETED THE "H" KEY CHECK HERE ---
-	# We only want it in _unhandled_input at the bottom
-	# otherwise it drains health too fast!
 
 	# MOVEMENT
 	if not is_attacking:
@@ -48,8 +49,10 @@ func _physics_process(delta):
 		if direction:
 			velocity.x = direction * SPEED
 			anim.play("walk")
-			if direction < 0: anim.flip_h = true
-			else: anim.flip_h = false
+			if direction < 0: 
+				anim.flip_h = true
+			else: 
+				anim.flip_h = false
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			anim.play("idle")
@@ -60,16 +63,40 @@ func _physics_process(delta):
 
 func perform_attack():
 	is_attacking = true
+	
+	# Stop moving when shooting
 	if is_on_floor():
 		velocity.x = 0		
+	
 	anim.play("attack")
+	
+	# FIRE THE BULLET HERE
+	shoot()
 
+func shoot():
+	if bullet_scene:	
+		var bullet = bullet_scene.instantiate()
+		
+		# check direction based on sprite flip
+		if sprite.flip_h == true:
+			bullet.direction = -1
+		else:
+			bullet.direction = 1
+		
+		# Add bullet to the SCENE ROOT, not the parent
+		get_tree().current_scene.add_child(bullet)
+		
+		# Set position after adding to scene
+		bullet.global_position = muzzle.global_position
+		
+		
+		
 func take_damage():
 	if is_hurt or is_dead: return
 	
 	health -= 1
 	health_changed.emit(health)
-	print("Current Health: ", health) # Check Output to see if this numbers goes down
+	print("Current Health: ", health) 
 	
 	if health <= 0:
 		die()
@@ -94,7 +121,7 @@ func _on_animated_sprite_2d_animation_finished():
 		is_hurt = false
 		anim.play("idle")
 
-# This handles the single key press
+# This handles the single key press for testing damage
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_H:	
