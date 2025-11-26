@@ -1663,6 +1663,7 @@ scale = Vector2(3, 3)
 
 [node name="Player" type="CharacterBody2D" parent="World" groups=["player"]]
 position = Vector2(7.666667, 2.3333335)
+collision_layer = 2
 script = ExtResource("3_q6r6c")
 bullet_scene = ExtResource("4_x0ka3")
 

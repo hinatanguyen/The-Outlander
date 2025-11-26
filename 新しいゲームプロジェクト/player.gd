@@ -6,8 +6,6 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -650.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# You had both anim and sprite pointing to the same thing, 
-# I kept them both so your code doesn't break.
 @onready var anim = $AnimatedSprite2D
 @onready var sprite = $AnimatedSprite2D 
 @onready var collision_shape = $CollisionShape2D
@@ -35,7 +33,6 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		
 	# ATTACK (Left Mouse Click)
-	# This checks if you click AND you aren't already attacking
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		perform_attack()
 
@@ -63,38 +60,28 @@ func _physics_process(delta):
 
 func perform_attack():
 	is_attacking = true
-	
-	# Stop moving when shooting
 	if is_on_floor():
 		velocity.x = 0		
-	
 	anim.play("attack")
-	
-	# FIRE THE BULLET HERE
 	shoot()
 
 func shoot():
 	if bullet_scene:	
 		var bullet = bullet_scene.instantiate()
-		
-		# check direction based on sprite flip
 		if sprite.flip_h == true:
 			bullet.direction = -1
 		else:
 			bullet.direction = 1
-		
-		# Add bullet to the SCENE ROOT, not the parent
 		get_tree().current_scene.add_child(bullet)
-		
-		# Set position after adding to scene
 		bullet.global_position = muzzle.global_position
 		
-		
-		
-func take_damage():
+# --- DAMAGE LOGIC (UPDATED) ---
+
+# We added 'damage_amount' here so the Orc can send the number '1'
+func take_damage(damage_amount):
 	if is_hurt or is_dead: return
 	
-	health -= 1
+	health -= damage_amount
 	health_changed.emit(health)
 	print("Current Health: ", health) 
 	
@@ -102,7 +89,13 @@ func take_damage():
 		die()
 	else:
 		is_hurt = true
-		velocity.x = 0
+		
+		# KNOCKBACK: Push player back when hit
+		if anim.flip_h == false:
+			velocity.x = -200 # Push Left
+		else:
+			velocity.x = 200  # Push Right
+			
 		anim.play("hurt")
 
 func die():
@@ -121,8 +114,8 @@ func _on_animated_sprite_2d_animation_finished():
 		is_hurt = false
 		anim.play("idle")
 
-# This handles the single key press for testing damage
+# Updated test input to send a number
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_H:	
-			take_damage()
+			take_damage(10)

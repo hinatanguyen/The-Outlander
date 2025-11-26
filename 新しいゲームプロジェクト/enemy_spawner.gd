@@ -2,7 +2,7 @@ extends Node2D
 
 @export var enemy_scene: PackedScene
 @export var spawn_interval: float = 1.0
-@export var max_enemies: int = 100
+@export var max_enemies: int = 5
 
 var spawn_points: Array[Node2D] = []
 var spawn_timer: float = 0.0
