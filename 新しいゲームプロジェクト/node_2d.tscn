@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=50 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dt24fa62owx7r" path="res://hud.gd" id="9_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://bcy4juutbqj73" path="res://UI/health_bar_decoration.png" id="10_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_hqns4"]
+[ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="13_0h7mo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1657,7 +1658,7 @@ tile_set = SubResource("TileSet_q6r6c")
 [node name="World" type="Camera2D" parent="."]
 scale = Vector2(3, 3)
 
-[node name="Player" type="CharacterBody2D" parent="World"]
+[node name="Player" type="CharacterBody2D" parent="World" groups=["player"]]
 position = Vector2(7.666667, 2.3333335)
 script = ExtResource("3_q6r6c")
 bullet_scene = ExtResource("4_x0ka3")
@@ -1705,6 +1706,9 @@ offset_top = 1.0
 offset_right = 174.0
 offset_bottom = 40.0
 texture = ExtResource("11_hqns4")
+
+[node name="Orc" parent="." instance=ExtResource("13_0h7mo")]
+scale = Vector2(3, 3)
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/Player/HUD" method="_on_player_health_changed"]

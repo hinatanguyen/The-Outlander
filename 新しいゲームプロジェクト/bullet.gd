@@ -4,7 +4,6 @@ var speed = 600
 var direction = 1 # 1 is right, -1 is left
 
 func _physics_process(delta):
-	# Move the bullet in WORLD SPACE
 	global_position.x += speed * direction * delta
 
 func _on_body_entered(body):
@@ -12,12 +11,14 @@ func _on_body_entered(body):
 	if body.name == "Player":
 		return
 	
-	# Check if the object is a Wall/Floor (TileMap)
-	if body is TileMapLayer or body is TileMap:
-		return
-	
-	# If it hits anything else (like an Enemy), destroy the bullet
+	# Hit a wall, floor, or other body - destroy bullet
 	queue_free()
+
+func _on_area_entered(area):
+	# Check if it's an enemy hurtbox
+	if area.name == "Hurtbox" or area.is_in_group("enemy"):
+		# The enemy's script will handle the damage and destroy this bullet
+		pass
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
