@@ -21,22 +21,22 @@ var health = 100
 func _physics_process(delta):
 	if is_dead: return 
 	
-	# HURT STATE
+	# ダメージ中
 	if is_hurt:
 		if not is_on_floor():
 			velocity.y += gravity * delta
 		move_and_slide()
 		return
 
-	# GRAVITY
+	# 重力
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	# ATTACK (Left Mouse Click)
+	# 攻撃（左クリック）
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		perform_attack()
 
-	# MOVEMENT
+	# 移動処理
 	if not is_attacking:
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
@@ -56,7 +56,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-# --- ACTIONS ---
+# --- 行動処理 ---
 
 func perform_attack():
 	is_attacking = true
@@ -75,26 +75,26 @@ func shoot():
 		get_tree().current_scene.add_child(bullet)
 		bullet.global_position = muzzle.global_position
 		
-# --- DAMAGE LOGIC (UPDATED) ---
+# --- ダメージ処理（更新版） ---
 
-# We added 'damage_amount' here so the Orc can send the number '1'
+# Orc が送ってくるダメージ量（1）を受け取れるようにした
 func take_damage(damage_amount):
 	if is_hurt or is_dead: return
 	
 	health -= damage_amount
 	health_changed.emit(health)
-	print("Current Health: ", health) 
+	print("現在の HP: ", health) 
 	
 	if health <= 0:
 		die()
 	else:
 		is_hurt = true
 		
-		# KNOCKBACK: Push player back when hit
+		# ノックバック（攻撃を受けた方向と逆に吹っ飛ぶ）
 		if anim.flip_h == false:
-			velocity.x = -200 # Push Left
+			velocity.x = -200 # 左へ吹っ飛び
 		else:
-			velocity.x = 200  # Push Right
+			velocity.x = 200  # 右へ吹っ飛び
 			
 		anim.play("hurt")
 
@@ -103,7 +103,13 @@ func die():
 	velocity.x = 0
 	anim.play("death")
 	collision_shape.set_deferred("disabled", true)
-	print("Player Died")
+	print("Player 死亡")
+	
+	# 1.5 秒待って死亡アニメを再生
+	await get_tree().create_timer(1.5).timeout
+	
+	# Game Over シーンへ移動
+	get_tree().change_scene_to_file("res://GameOver.tscn")
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "attack":
@@ -114,7 +120,7 @@ func _on_animated_sprite_2d_animation_finished():
 		is_hurt = false
 		anim.play("idle")
 
-# Updated test input to send a number
+# KEY_H を押したときのテストダメージ（10）
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_H:	

@@ -2,19 +2,19 @@ extends CharacterBody2D
 
 const GRAVITY = 900.0
 const WALK_SPEED = 50.0
-const CHASE_TRIGGER_DISTANCE = 70.0 # Distance to start swinging
+const CHASE_TRIGGER_DISTANCE = 70.0 # プレイヤーに接近して攻撃を開始する距離
 
 @onready var anim = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
 @onready var hurtbox = $Hurtbox
-@onready var attack_range_node = $AttackRange # Reference to your new node
+@onready var attack_range_node = $AttackRange # 新しく追加した攻撃判定ノード
 
 var health = 3
 var is_dead = false
 var is_hurt = false
 var is_attacking = false
 var player = null
-var player_in_attack_zone = false # Tracks if player is physically inside the box
+var player_in_attack_zone = false # プレイヤーが攻撃範囲内にいるか
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
@@ -26,7 +26,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
 	
-	# Stop moving if hurt or attacking
+	# ダメージ中または攻撃中は動かない
 	if is_hurt or is_attacking:
 		velocity.x = 0
 		move_and_slide()
@@ -36,16 +36,16 @@ func _physics_process(delta):
 		var direction_to_player = global_position.direction_to(player.global_position)
 		var distance_to_player = global_position.distance_to(player.global_position)
 		
-		# --- FLIPPING LOGIC ---
-		# We need to flip the Sprite AND the AttackRange box so he attacks the correct side
+		# --- 向きの反転処理 ---
+		# スプライトと攻撃範囲を反転して、正しく攻撃させる
 		if direction_to_player.x < 0:
 			anim.flip_h = true
-			attack_range_node.scale.x = -1 # Flips the detection box to the left
+			attack_range_node.scale.x = -1 # 左向きに攻撃判定を反転
 		else:
 			anim.flip_h = false
-			attack_range_node.scale.x = 1 # Flips the detection box to the right
+			attack_range_node.scale.x = 1
 			
-		# --- MOVEMENT LOGIC ---
+		# --- 移動処理 ---
 		if distance_to_player > CHASE_TRIGGER_DISTANCE:
 			velocity.x = sign(direction_to_player.x) * WALK_SPEED
 			anim.play("walk")
@@ -67,32 +67,29 @@ func perform_attack():
 	is_attacking = true
 	anim.play("attack")
 	
-	# Wait a split second so damage happens when the axe actually hits (0.3s is a guess)
-	# Adjust this number to match your animation speed!
+	# 斧が当たるタイミングまで少し待つ（0.3秒は仮値）
 	await get_tree().create_timer(0.3).timeout
 	
-	# Check if player is still in the box when the axe lands
+	# プレイヤーが攻撃範囲内にいるか確認
 	if player_in_attack_zone and not is_dead and not is_hurt:
-		print("Player hit!")
+		print("Player にヒット!")
 		if player.has_method("take_damage"):
-			player.take_damage(1) # Deal 1 damage
+			player.take_damage(1) # 1 ダメージ
 	
 	await anim.animation_finished
 	is_attacking = false
 
-# --- NEW SIGNAL CONNECTIONS ---
+# --- 攻撃範囲のシグナル ---
 
-# Signal: AttackRange -> body_entered
 func _on_attack_range_body_entered(body):
 	if body.is_in_group("player"):
 		player_in_attack_zone = true
 
-# Signal: AttackRange -> body_exited
 func _on_attack_range_body_exited(body):
 	if body.is_in_group("player"):
 		player_in_attack_zone = false
 
-# --- EXISTING HURT/DEATH LOGIC ---
+# --- ダメージ / 死亡処理 ---
 
 func _on_hurtbox_area_entered(area):
 	if area.is_in_group("bullet"):
@@ -120,7 +117,7 @@ func die():
 	anim.play("death")
 	collision_shape.set_deferred("disabled", true)
 	
-	# Disable hitboxes so dead orc doesn't hurt anyone
+	# 死亡後は攻撃判定やヒットボックスを無効化
 	attack_range_node.set_deferred("monitoring", false)
 	if hurtbox.has_node("CollisionShape2D"):
 		hurtbox.get_node("CollisionShape2D").set_deferred("disabled", true)

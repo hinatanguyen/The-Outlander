@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3woagclu3hye"]
+
+[ext_resource type="Texture2D" uid="uid://rpusddhomom0" path="res://Background/gameover.png" id="1_40baj"]
+[ext_resource type="Script" uid="uid://dbuvnexkx3jbx" path="res://game_over.gd" id="2_a1htc"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_40baj")
+expand_mode = 1
+stretch_mode = 6
+script = ExtResource("2_a1htc")
+
+[node name="RestartButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 381.0
+offset_right = 711.0
+offset_bottom = 485.0
+text = "TRY AGAIN "
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 499.0
+offset_right = 712.0
+offset_bottom = 611.0
+text = "RETURN TO MAIN MENU"
+
+[connection signal="pressed" from="RestartButton" to="TextureRect" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="TextureRect" method="_on_quit_button_pressed"]

@@ -6,11 +6,11 @@ const MAX_HEALTH = 100.0
 var max_bar_width = 0.0
 
 func _ready():
-	# Capture the width immediately
+	# バーの最大幅を記録
 	max_bar_width = health_fill.size.x
 	print("HUD Ready. Max Bar Width captured: ", max_bar_width)
 	
-	# Wait for 1 frame to let the rest of the scene load
+	# 1 フレーム待ち、シーンのロードを完了させる
 	await get_tree().process_frame
 	
 	find_and_connect_player()
@@ -18,29 +18,29 @@ func _ready():
 func find_and_connect_player():
 	var player = null
 	
-	# METHOD 1: Check Group "player" (Best)
+	# 方法1: "player" グループから検索（推奨）
 	player = get_tree().get_first_node_in_group("player")
 	
-	# METHOD 2: Check Parent's children (Sibling check)
+	# 方法2: 親の子ノードから検索
 	if not player:
 		player = get_parent().get_node_or_null("Player")
 		
-	# METHOD 3: Search recursively (Last Resort)
+	# 方法3: 再帰的に検索（最終手段）
 	if not player:
 		player = get_tree().root.find_child("Player", true, false)
 
 	if player:
-		print("Player found! Connecting HUD.")
-		# Disconnect first to avoid double-connection errors if this runs twice
+		print("Player 発見！HUD に接続します。")
+		# 二重接続を避けるため、一度切断する
 		if player.health_changed.is_connected(_on_player_health_changed):
 			player.health_changed.disconnect(_on_player_health_changed)
 			
 		player.health_changed.connect(_on_player_health_changed)
-		# Initialize bar
+		# 初期バー更新
 		_on_player_health_changed(player.health)
 	else:
-		print("CRITICAL ERROR: Player node NOT found. HUD will not update.")
-		print("Please ensure your Player node is in the scene and named 'Player'.")
+		print("重大エラー: Player ノードが見つかりません。HUD は更新されません。")
+		print("Player ノードの名前が 'Player' になっているか確認してください。")
 
 func _on_player_health_changed(new_value):
 	var health_percent = float(new_value) / MAX_HEALTH

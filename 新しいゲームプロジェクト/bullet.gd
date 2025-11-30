@@ -1,23 +1,23 @@
 extends Area2D
 
 var speed = 600
-var direction = 1 # 1 is right, -1 is left
+var direction = 1 # 右が1、左が-1
 
 func _physics_process(delta):
 	global_position.x += speed * direction * delta
 
 func _on_body_entered(body):
-	# Ignore the Player
+	# Player は無視する
 	if body.name == "Player":
 		return
 	
-	# Hit a wall, floor, or other body - destroy bullet
+	# 壁、床、その他の物体に当たったら弾を削除
 	queue_free()
 
 func _on_area_entered(area):
-	# Check if it's an enemy hurtbox
+	# 敵のヒットボックスに当たった場合
 	if area.name == "Hurtbox" or area.is_in_group("enemy"):
-		# The enemy's script will handle the damage and destroy this bullet
+		# 敵側のスクリプトがダメージ処理と弾の削除を行う
 		pass
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
