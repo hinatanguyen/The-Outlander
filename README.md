@@ -33,8 +33,9 @@ Inspired by **Gun Mayhem** (Gu & Eksiri, 2011) and **Broforce** (Free Lives, 201
 ### Prerequisites
 
 - [Godot Engine 4.x](https://godotengine.org/download) or later
-- 2GB RAM minimum
-- OpenGL 3.3 / DirectX 11 compatible GPU
+- 1GB RAM minimum
+- Electricity, Internet, GPU is optional
+- Linux is recommend
 
 ### Installation
 
@@ -112,7 +113,7 @@ The-Outlander/
 
 **Engine:** Godot 4.x  
 **Language:** GDScript  
-**Resolution:** 1920x1080 (scalable)  
+**Resolution:** 1152x648 (Windowed)  
 **Target FPS:** 60  
 **Platform:** PC (Windows, macOS, Linux)
 
