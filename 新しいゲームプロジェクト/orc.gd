@@ -2,12 +2,13 @@ extends CharacterBody2D
 
 const GRAVITY = 900.0
 const WALK_SPEED = 50.0
+const JUMP_VELOCITY = -650.0 # ジャンプ力
 const CHASE_TRIGGER_DISTANCE = 70.0 # プレイヤーに接近して攻撃を開始する距離
 
 @onready var anim = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
 @onready var hurtbox = $Hurtbox
-@onready var attack_range_node = $AttackRange # 新しく追加した攻撃判定ノード
+@onready var attack_range_node = $AttackRange
 
 var health = 3
 var is_dead = false
@@ -16,6 +17,9 @@ var is_attacking = false
 var player = null
 var player_in_attack_zone = false # プレイヤーが攻撃範囲内にいるか
 
+# --- ジャンプのクールダウン用変数 (連打防止) ---
+var jump_cooldown = 10.0 
+
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
 
@@ -23,9 +27,14 @@ func _physics_process(delta):
 	if is_dead:
 		return
 	
+	# 重力を適用
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
 	
+	# ジャンプのクールダウンを減らす
+	if jump_cooldown > 0:
+		jump_cooldown -= delta
+
 	# ダメージ中または攻撃中は動かない
 	if is_hurt or is_attacking:
 		velocity.x = 0
@@ -45,10 +54,23 @@ func _physics_process(delta):
 			anim.flip_h = false
 			attack_range_node.scale.x = 1
 			
-		# --- 移動処理 ---
+		# --- 移動とジャンプ処理 ---
 		if distance_to_player > CHASE_TRIGGER_DISTANCE:
 			velocity.x = sign(direction_to_player.x) * WALK_SPEED
 			anim.play("walk")
+			
+			# ジャンプの判定 (地面にいて、かつクールダウンが終わっている時)
+			if is_on_floor() and jump_cooldown <= 0:
+				# 条件1: 壁にぶつかっている場合
+				var hitting_wall = is_on_wall()
+				
+				# 条件2: プレイヤーが自分より高い位置にいる場合（50ピクセル以上上）
+				var player_is_above = player.global_position.y < (global_position.y - 50)
+				
+				if hitting_wall or player_is_above:
+					velocity.y = JUMP_VELOCITY
+					jump_cooldown = 1.0 # ジャンプしたら1秒待機する (これでバニーホップを防ぐ)
+					
 		else:
 			velocity.x = 0
 			if not is_attacking:
