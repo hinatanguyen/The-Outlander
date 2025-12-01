@@ -21,10 +21,6 @@ var health = 100
 func _physics_process(delta):
 	if is_dead: return 
 	
-	queue_redraw()  # Add this line
-	
-	print("Player: ", global_position.x, " Camera: ", $Camera2D.global_position.x)
-	
 	# ダメージ中
 	if is_hurt:
 		if not is_on_floor():
@@ -62,8 +58,6 @@ func _physics_process(delta):
 
 # --- 行動処理 ---
 
-func _draw():
-	draw_string(ThemeDB.fallback_font, Vector2(-100, -150), "X: " + str(int(global_position.x)), HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color.YELLOW)
 
 
 func perform_attack():
