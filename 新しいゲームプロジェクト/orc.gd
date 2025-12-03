@@ -21,6 +21,7 @@ var player_in_attack_zone = false # プレイヤーが攻撃範囲内にいる�
 var jump_cooldown = 10.0 
 
 func _ready():
+	
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(delta):
@@ -96,7 +97,7 @@ func perform_attack():
 	if player_in_attack_zone and not is_dead and not is_hurt:
 		print("Player にヒット!")
 		if player.has_method("take_damage"):
-			player.take_damage(1) # 1 ダメージ
+			player.take_damage(36) # 1 ダメージ
 	
 	await anim.animation_finished
 	is_attacking = false

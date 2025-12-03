@@ -959,18 +959,6 @@ texture = ExtResource("2_epypp")
 5:1/0 = 0
 6:1/0 = 0
 7:1/0 = 0
-8:1/0 = 0
-8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-9:1/0 = 0
-9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-10:1/0 = 0
-10:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-11:1/0 = 0
-11:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-12:1/0 = 0
-12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-13:1/0 = 0
-13:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:2/0 = 0
 3:2/0 = 0
 4:2/0 = 0
@@ -1034,25 +1022,15 @@ texture = ExtResource("2_epypp")
 8:5/0 = 0
 9:5/0 = 0
 10:5/0 = 0
-10:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 11:5/0 = 0
-11:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:5/0 = 0
-12:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 13:5/0 = 0
-13:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:5/0 = 0
-14:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:5/0 = 0
-15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:5/0 = 0
-16:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:5/0 = 0
-17:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:5/0 = 0
-18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:5/0 = 0
-19:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:6/0 = 0
 1:6/0 = 0
 2:6/0 = 0
@@ -1415,6 +1393,12 @@ texture = ExtResource("2_epypp")
 19:23/0 = 0
 21:7/0 = 0
 21:8/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_q6r6c"]
 physics_layer_0/collision_layer = 1
@@ -1650,6 +1634,7 @@ radius = 7.6666718
 height = 18.666666
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nr8wp"]
+distance = 45.0
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(576, 325)
@@ -1699,7 +1684,7 @@ position = Vector2(10.666658, 4.33333)
 position = Vector2(2.6666667, 5.000003)
 scale = Vector2(1.01, 0.98)
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"hurt"
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Player"]
 position = Vector2(0.6666654, 2.6666641)
@@ -1744,7 +1729,7 @@ offset_bottom = 40.0
 texture = ExtResource("11_hqns4")
 
 [node name="EnemySpawner" type="Node2D" parent="."]
-position = Vector2(-82, -69)
+position = Vector2(-82, -67)
 script = ExtResource("13_0h7mo")
 enemy_scene = ExtResource("14_nr8wp")
 
@@ -1754,16 +1739,27 @@ position = Vector2(-123, -117)
 [node name="Marker2D2" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(197, -100)
 
+[node name="EnemySpawner2" type="Node2D" parent="."]
+position = Vector2(176, -532)
+script = ExtResource("13_0h7mo")
+enemy_scene = ExtResource("14_nr8wp")
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(-226, -9)
+
+[node name="Marker2D2" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(-74, 11)
+
 [node name="Border" type="StaticBody2D" parent="."]
 position = Vector2(1508, 85)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border"]
-position = Vector2(-2999, 115)
+position = Vector2(-3471, 40)
 rotation = 1.5707964
 shape = SubResource("WorldBoundaryShape2D_nr8wp")
 
 [node name="Border2" type="StaticBody2D" parent="."]
-position = Vector2(5766, -2)
+position = Vector2(5813, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border2"]
 position = Vector2(-4256, 121)
