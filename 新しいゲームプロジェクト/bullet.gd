@@ -1,10 +1,26 @@
 extends Area2D
 
-var speed = 600
+var speed = 300
 var direction = 1 # 右が1、左が-1
+var lifetime = 0.8 # 秒数を設定（お好みで調整）
+
+func _ready():
+	# アニメーションを再生開始
+	$AnimatedSprite2D.play()
+	
+	# タイマーを作成して設定
+	var timer = Timer.new()
+	timer.wait_time = lifetime
+	timer.one_shot = true
+	timer.connect("timeout", Callable(self, "_on_lifetime_timeout"))
+	add_child(timer)
+	timer.start()
 
 func _physics_process(delta):
 	global_position.x += speed * direction * delta
+
+func _on_lifetime_timeout():
+	queue_free()
 
 func _on_body_entered(body):
 	# Player は無視する
