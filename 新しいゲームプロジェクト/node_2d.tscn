@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=56 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://q38mrbkgpvlo" path="res://enemy_spawner.gd" id="13_0h7mo"]
 [ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="14_nr8wp"]
 [ext_resource type="PackedScene" uid="uid://bpehkylpiy6p" path="res://dummy.tscn" id="15_d2bti"]
+[ext_resource type="Script" uid="uid://x5h7ojqkiqys" path="res://trigger.gd" id="16_ta5nu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1637,6 +1638,12 @@ height = 18.666666
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nr8wp"]
 distance = 45.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flf07"]
+size = Vector2(108, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k73cj"]
+size = Vector2(108, 13)
+
 [node name="Node2D" type="Node2D"]
 position = Vector2(576, 325)
 
@@ -1769,6 +1776,23 @@ shape = SubResource("WorldBoundaryShape2D_nr8wp")
 
 [node name="Dummy" parent="." instance=ExtResource("15_d2bti")]
 position = Vector2(-1363, 98)
+
+[node name="SpawnerTrigger1" type="Area2D" parent="."]
+collision_mask = 2
+script = ExtResource("16_ta5nu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnerTrigger1"]
+position = Vector2(-1119, 128.5)
+shape = SubResource("RectangleShape2D_flf07")
+
+[node name="SpawnerTrigger2" type="Area2D" parent="." node_paths=PackedStringArray("spawner")]
+collision_mask = 2
+script = ExtResource("16_ta5nu")
+spawner = NodePath("../EnemySpawner2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnerTrigger2"]
+position = Vector2(-1119, 128.5)
+shape = SubResource("RectangleShape2D_k73cj")
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/CanvasLayer/HUD" method="_on_player_health_changed"]
