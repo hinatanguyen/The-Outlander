@@ -95,7 +95,6 @@ func perform_attack():
 	
 	# プレイヤーが攻撃範囲内にいるか確認
 	if player_in_attack_zone and not is_dead and not is_hurt:
-		print("Player にヒット!")
 		if player.has_method("take_damage"):
 			player.take_damage(36) # 1 ダメージ
 	

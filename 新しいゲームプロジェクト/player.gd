@@ -85,7 +85,6 @@ func take_damage(damage_amount):
 	
 	health -= damage_amount
 	health_changed.emit(health)
-	print("現在の HP: ", health) 
 	
 	if health <= 0:
 		die()
@@ -105,7 +104,6 @@ func die():
 	velocity.x = 0
 	anim.play("death")
 	collision_shape.set_deferred("disabled", true)
-	print("Player 死亡")
 	
 	# 1.5 秒待って死亡アニメを再生
 	await get_tree().create_timer(1.5).timeout

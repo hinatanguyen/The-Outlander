@@ -15,9 +15,6 @@ func _ready():
 	for child in get_children():
 		if child is Marker2D:
 			spawn_points.append(child)
-	
-	if spawn_points.is_empty():
-		print("警告: スポーンポイントがありません！子ノードに Marker2D を追加してください。")
 
 func _process(delta):
 	# アクティブでない場合は処理を中断（タイマーも進めない）

@@ -45,7 +45,6 @@ func take_damage(amount):
 		return
 	
 	health -= amount
-	print("Dummy took damage! Health: ", health)
 	
 	if health <= 0:
 		die()

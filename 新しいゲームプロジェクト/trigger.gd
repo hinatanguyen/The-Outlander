@@ -12,7 +12,6 @@ func _on_body_entered(body):
 		return
 	
 	if body.is_in_group("player"):
-		print("Player entered trigger! Activating spawner...")
 		triggered = true
 		
 		if spawner and spawner.has_method("activate_spawner"):
