@@ -5,6 +5,7 @@ var direction = 1 # 右が1、左が-1
 var lifetime = 0.8 # 秒数を設定（お好みで調整）
 
 func _ready():
+	add_to_group("player_projectile")
 	# アニメーションを再生開始
 	$AnimatedSprite2D.play()
 	

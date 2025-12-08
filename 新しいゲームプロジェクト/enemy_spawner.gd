@@ -3,6 +3,8 @@ extends Node2D
 @export var enemy_scene: PackedScene
 @export var spawn_interval: float = 2.0
 @export var max_enemies: int = 10
+# 最初はスポーンしないように false に設定。インスペクターで変更も可能。
+@export var is_active: bool = false 
 
 var spawn_points: Array[Node2D] = []
 var spawn_timer: float = 0.0
@@ -18,6 +20,10 @@ func _ready():
 		print("警告: スポーンポイントがありません！子ノードに Marker2D を追加してください。")
 
 func _process(delta):
+	# アクティブでない場合は処理を中断（タイマーも進めない）
+	if not is_active:
+		return
+
 	if not enemy_scene or spawn_points.is_empty():
 		return
 	
@@ -49,3 +55,7 @@ func spawn_enemy():
 
 func _on_enemy_died():
 	current_enemy_count -= 1
+
+# トリガーエリアからこの関数を呼び出してスポーンを開始させる
+func activate_spawner():
+	is_active = true

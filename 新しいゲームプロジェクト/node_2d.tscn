@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=53 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_hqns4"]
 [ext_resource type="Script" uid="uid://q38mrbkgpvlo" path="res://enemy_spawner.gd" id="13_0h7mo"]
 [ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="14_nr8wp"]
+[ext_resource type="PackedScene" uid="uid://bpehkylpiy6p" path="res://dummy.tscn" id="15_d2bti"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1672,7 +1673,7 @@ tile_map_data = PackedByteArray("AAD2/wkAAAAIAAEAAAD2/woAAAAIAAIAAAD2/wsAAAAIAAM
 tile_set = SubResource("TileSet_q6r6c")
 
 [node name="Player" type="CharacterBody2D" parent="World" groups=["player"]]
-position = Vector2(7.666667, 2.3333335)
+position = Vector2(-605, 0)
 collision_layer = 2
 script = ExtResource("3_q6r6c")
 bullet_scene = ExtResource("4_x0ka3")
@@ -1765,6 +1766,9 @@ position = Vector2(5813, 4)
 position = Vector2(-4256, 121)
 rotation = -1.5707964
 shape = SubResource("WorldBoundaryShape2D_nr8wp")
+
+[node name="Dummy" parent="." instance=ExtResource("15_d2bti")]
+position = Vector2(-1363, 98)
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/CanvasLayer/HUD" method="_on_player_health_changed"]
