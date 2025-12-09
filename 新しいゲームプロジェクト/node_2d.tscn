@@ -1680,7 +1680,7 @@ tile_map_data = PackedByteArray("AAD2/wkAAAAIAAEAAAD2/woAAAAIAAIAAAD2/wsAAAAIAAM
 tile_set = SubResource("TileSet_q6r6c")
 
 [node name="Player" type="CharacterBody2D" parent="World" groups=["player"]]
-position = Vector2(-605, 0)
+position = Vector2(-604, 33)
 collision_layer = 2
 script = ExtResource("3_q6r6c")
 bullet_scene = ExtResource("4_x0ka3")
