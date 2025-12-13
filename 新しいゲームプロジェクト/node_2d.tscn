@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=57 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bcy4juutbqj73" path="res://UI/health_bar_decoration.png" id="10_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_hqns4"]
 [ext_resource type="Script" uid="uid://q38mrbkgpvlo" path="res://enemy_spawner.gd" id="13_0h7mo"]
+[ext_resource type="Script" uid="uid://dk1ktyr6ufw27" path="res://tutorial_ui.gd" id="13_flf07"]
 [ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="14_nr8wp"]
 [ext_resource type="PackedScene" uid="uid://bpehkylpiy6p" path="res://dummy.tscn" id="15_d2bti"]
 [ext_resource type="Script" uid="uid://x5h7ojqkiqys" path="res://trigger.gd" id="16_ta5nu"]
@@ -1654,7 +1655,7 @@ repeat_size = Vector2(768, 0)
 repeat_times = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(0, -1)
+position = Vector2(-18, -30.000004)
 scale = Vector2(1.4947916, 1.5516827)
 texture = ExtResource("1_0e48y")
 
@@ -1735,6 +1736,33 @@ offset_top = 1.0
 offset_right = 174.0
 offset_bottom = 40.0
 texture = ExtResource("11_hqns4")
+
+[node name="TutorialUI" type="Control" parent="World/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_flf07")
+
+[node name="HelpPanel" type="Panel" parent="World/CanvasLayer/TutorialUI"]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 8.0
+offset_right = 637.0
+offset_bottom = 107.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="World/CanvasLayer/TutorialUI/HelpPanel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 243.0
+offset_bottom = 97.0
+text = "A/D: Move
+W: Jump
+Mouse Button 1: Attack
+ESC: Settings"
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 position = Vector2(-82, -67)
