@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=59 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_epypp"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://orc.tscn" id="14_nr8wp"]
 [ext_resource type="PackedScene" uid="uid://bpehkylpiy6p" path="res://dummy.tscn" id="15_d2bti"]
 [ext_resource type="Script" uid="uid://x5h7ojqkiqys" path="res://trigger.gd" id="16_ta5nu"]
+[ext_resource type="Script" uid="uid://cfjw2ppx50v2g" path="res://level_manager.gd" id="18_k73cj"]
+[ext_resource type="PackedScene" uid="uid://khls41eil850" path="res://portal.tscn" id="19_rjqkl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_epypp")
@@ -1640,10 +1642,10 @@ height = 18.666666
 distance = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flf07"]
-size = Vector2(108, 13)
+size = Vector2(511, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k73cj"]
-size = Vector2(108, 13)
+size = Vector2(509, 13)
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(576, 325)
@@ -1764,7 +1766,7 @@ W: Jump
 Mouse Button 1: Attack
 ESC: Settings"
 
-[node name="EnemySpawner" type="Node2D" parent="."]
+[node name="EnemySpawner" type="Node2D" parent="." groups=["spawners"]]
 position = Vector2(-82, -67)
 script = ExtResource("13_0h7mo")
 enemy_scene = ExtResource("14_nr8wp")
@@ -1775,7 +1777,7 @@ position = Vector2(-123, -117)
 [node name="Marker2D2" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(197, -100)
 
-[node name="EnemySpawner2" type="Node2D" parent="."]
+[node name="EnemySpawner2" type="Node2D" parent="." groups=["spawners"]]
 position = Vector2(176, -532)
 script = ExtResource("13_0h7mo")
 enemy_scene = ExtResource("14_nr8wp")
@@ -1810,7 +1812,7 @@ collision_mask = 2
 script = ExtResource("16_ta5nu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnerTrigger1"]
-position = Vector2(-1119, 128.5)
+position = Vector2(-1077.5, 128.5)
 shape = SubResource("RectangleShape2D_flf07")
 
 [node name="SpawnerTrigger2" type="Area2D" parent="." node_paths=PackedStringArray("spawner")]
@@ -1819,8 +1821,13 @@ script = ExtResource("16_ta5nu")
 spawner = NodePath("../EnemySpawner2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnerTrigger2"]
-position = Vector2(-1119, 128.5)
+position = Vector2(-1078.5, 128.5)
 shape = SubResource("RectangleShape2D_k73cj")
+
+[node name="LevelManager" type="Node" parent="."]
+script = ExtResource("18_k73cj")
+portal_scene = ExtResource("19_rjqkl")
+enemies_to_defeat = 1
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/CanvasLayer/HUD" method="_on_player_health_changed"]

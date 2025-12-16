@@ -1,26 +1,41 @@
+# enemy_spawner.gd (UPDATED VERSION)
 extends Node2D
 
 @export var enemy_scene: PackedScene
 @export var spawn_interval: float = 2.0
 @export var max_enemies: int = 10
-# 最初はスポーンしないように false に設定。インスペクターで変更も可能。
+@export var total_spawns_limit: int = 10  # NEW: Total enemies to spawn before stopping
 @export var is_active: bool = false 
 
 var spawn_points: Array[Node2D] = []
 var spawn_timer: float = 0.0
 var current_enemy_count: int = 0
+var total_spawned: int = 0  # NEW: Track total enemies spawned
+
+var level_manager: Node = null  # NEW: Reference to level manager
 
 func _ready():
 	# 子ノードの Marker2D をスポーン地点として収集
 	for child in get_children():
 		if child is Marker2D:
 			spawn_points.append(child)
+	
+	# NEW: Find level manager in the scene
+	level_manager = get_tree().root.find_child("LevelManager", true, false)
+	if not level_manager:
+		push_warning("LevelManager not found in scene!")
 
 func _process(delta):
 	# アクティブでない場合は処理を中断（タイマーも進めない）
 	if not is_active:
 		return
-
+	
+	# NEW: Check if we've reached the total spawn limit
+	if total_spawned >= total_spawns_limit:
+		is_active = false  # Stop spawning
+		print(name, " has finished spawning (", total_spawned, " enemies)")
+		return
+	
 	if not enemy_scene or spawn_points.is_empty():
 		return
 	
@@ -48,7 +63,14 @@ func spawn_enemy():
 	if enemy.has_signal("tree_exited"):
 		enemy.tree_exited.connect(_on_enemy_died)
 	
+	# NEW: Register enemy with level manager
+	if level_manager and level_manager.has_method("register_enemy"):
+		level_manager.register_enemy(enemy)
+	
 	current_enemy_count += 1
+	total_spawned += 1
+	
+	print(name, " spawned enemy #", total_spawned, " (Active: ", current_enemy_count, ")")
 
 func _on_enemy_died():
 	current_enemy_count -= 1
@@ -56,3 +78,4 @@ func _on_enemy_died():
 # トリガーエリアからこの関数を呼び出してスポーンを開始させる
 func activate_spawner():
 	is_active = true
+	print(name, " activated!")

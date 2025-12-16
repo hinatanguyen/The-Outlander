@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+
+
 const GRAVITY = 900.0
 const WALK_SPEED = 50.0
 const JUMP_VELOCITY = -650.0 # ジャンプ力
