@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://l18cd7hotqki"]
 
 [ext_resource type="Texture2D" uid="uid://bmttcf5tvbat1" path="res://Character/Weapon/tornado.png" id="2_v8qja"]
-[ext_resource type="Script" uid="uid://cyanrunwgw23b" path="res://bullet.gd" id="12_qd0d2"]
+[ext_resource type="Script" uid="uid://cyanrunwgw23b" path="res://Scripts/bullet.gd" id="12_qd0d2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t4vbm"]
 atlas = ExtResource("2_v8qja")

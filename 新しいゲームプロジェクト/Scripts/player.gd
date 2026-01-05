@@ -100,16 +100,24 @@ func take_damage(damage_amount):
 		anim.play("hurt")
 
 func die():
+	if is_dead:
+		return 
+		
 	is_dead = true
 	velocity.x = 0
 	anim.play("death")
 	collision_shape.set_deferred("disabled", true)
 	
-	# 1.5 秒待って死亡アニメを再生
+	# --- ADD THIS LINE HERE ---
+	# This saves the current scene path to your Global singleton
+	Global.current_level_path = get_tree().current_scene.scene_file_path
+	# --------------------------
+
+	# Wait for death animation
 	await get_tree().create_timer(1.5).timeout
 	
-	# Game Over シーンへ移動
-	get_tree().change_scene_to_file("res://GameOver.tscn")
+	if get_tree():
+		get_tree().change_scene_to_file("res://Scene/GameOver.tscn")
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "attack":
