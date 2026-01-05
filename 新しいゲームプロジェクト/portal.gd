@@ -1,7 +1,7 @@
 extends Area2D
 
 # CHANGE THIS LINE:
-@export var next_scene_path: String = "res://node_2d.tscn" 
+@export var next_scene_path: String = "res://level1.tscn" 
 
 func _ready():
 	body_entered.connect(_on_body_entered)

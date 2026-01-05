@@ -37,6 +37,7 @@ height = 74.0
 
 [node name="Portal" type="Area2D"]
 scale = Vector2(2, 2)
+collision_mask = 2
 script = ExtResource("1_ef3v5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

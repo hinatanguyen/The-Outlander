@@ -4,186 +4,186 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)]()
 
-A story-driven 2D platform shooter where humanity's last soldiers fight against an alien invasion. Battle through five increasingly challenging levels, from devastated cities to the alien fortress, and uncover a cosmic revelation that will reframe humanity's struggle for survival.
+人類最後の兵士がエイリアン侵略と戦うストーリー駆動型2Dプラットフォームシューター。荒廃した都市からエイリアン要塞まで、ますます困難になる5つのレベルを戦い抜き、人類の生存闘争を再定義する宇宙の真実を明らかにしましょう。
 
-## 🎮 Overview
+## 🎮 概要
 
-**The Outlander** combines fast-paced shooting mechanics with platform navigation in a narrative-driven experience. Progress through a gripping campaign that builds toward a mind-bending twist, featuring dynamic AI opponents, character progression, and weapon variety.
+**The Outlander**は、ストーリー駆動の体験の中で、テンポの速いシューティングメカニクスとプラットフォームナビゲーションを組み合わせています。ダイナミックなAI対戦相手、キャラクター成長、武器のバリエーションを特徴とする、衝撃的なひねりに向けて構築された魅力的なキャンペーンを進めてください。
 
-### Key Features
+### 主な機能
 
-- **Story-Driven Campaign**: Five levels of escalating difficulty leading to a climactic boss battle
-- **Dynamic AI Enemies**: Bot opponents that scale in difficulty based on player performance
-- **Character Customization**: Multiple character skins with distinct backstories and narrative perspectives
-- **Diverse Arsenal**: Wide variety of weapons and power-ups encouraging different playstyles
-- **Progressive Difficulty**: Intelligent difficulty adjustment system that responds to player skill
-- **Rich Environments**: Battle through devastated cities to alien fortresses with destructible elements
-- **Full Controller Support**: Keyboard and gamepad controls with remapping options
+- **ストーリー駆動キャンペーン**: クライマックスのボス戦に至る5つの段階的難易度レベル
+- **ダイナミックAI敵**: プレイヤーのパフォーマンスに基づいて難易度が調整されるボット対戦相手
+- **キャラクターカスタマイゼーション**: 独自の背景ストーリーと物語の視点を持つ複数のキャラクタースキン
+- **多様な武器庫**: 異なるプレイスタイルを促す幅広い武器とパワーアップ
+- **段階的難易度**: プレイヤースキルに応答するインテリジェント難易度調整システム
+- **豊かな環境**: 破壊可能な要素を持つ荒廃した都市からエイリアン要塞までの戦い
+- **完全なコントローラーサポート**: キーボードとゲームパッドコントロール、リマッピングオプション付き
 
-## 🎯 Project Purpose
+## 🎯 プロジェクトの目的
 
-Inspired by **Gun Mayhem** (Gu & Eksiri, 2011) and **Broforce** (Free Lives, 2015), The Outlander takes the chaotic action and diverse weapons of these classics while emphasizing:
+**Gun Mayhem**（Gu & Eksiri, 2011）と**Broforce**（Free Lives, 2015）にインスパイアされたThe Outlanderは、これらのクラシックの混沌としたアクションと多様な武器を取り入れつつ、以下を強調しています：
 
-- **Narrative Focus**: A compelling story that drives player engagement
-- **Advanced AI**: Opponents with dynamic difficulty scaling for sustained challenge
-- **Single-Player Excellence**: Crafted experience without multiplayer compromises
+- **物語への集中**: プレイヤーのエンゲージメントを促進する魅力的なストーリー
+- **高度なAI**: 持続的な挑戦のための動的難易度スケーリングを持つ対戦相手
+- **シングルプレイヤーの卓越性**: マルチプレイヤーの妥協なしに作られた体験
 
-## 🚀 Getting Started
+## 🚀 はじめに
 
-### Prerequisites
+### 前提条件
 
-- [Godot Engine 4.x](https://godotengine.org/download) or later
-- 1GB RAM minimum
-- Electricity, Internet, GPU is optional
-- Linux is recommend
+- [Godot Engine 4.x](https://godotengine.org/download) 以降
+- 最小1GB RAM
+- 電気、インターネット、GPUはオプション
+- Linuxを推奨
 
-### Installation
+### インストール
 
-1. Clone the repository:
+1. リポジトリをクローンする:
 ```bash
 git clone https://github.com/hinatanguyen/The-Outlander.git
 cd The-Outlander
 ```
 
-2. Open the project in Godot:
-   - Launch Godot Engine
-   - Click "Import"
-   - Navigate to the project folder
-   - Select `project.godot`
+2. Godotでプロジェクトを開く:
+   - Godot Engineを起動
+   - 「インポート」をクリック
+   - プロジェクトフォルダーに移動
+   - `project.godot`を選択
 
-3. Run the project:
-   - Press `F5` or click the "Play" button in Godot
+3. プロジェクトを実行:
+   - `F5`を押すか、Godotの「再生」ボタンをクリック
 
-## 🎮 How to Play
+## 🎮 プレイ方法
 
-### Controls
+### 操作
 
-**Keyboard:**
-- `WASD` / `Arrow Keys` - Move
-- `Space` - Jump
-- `Left Mouse` - Shoot
+**キーボード:**
+- `WASD` / `矢印キー` - 移動
+- `スペース` - ジャンプ
+- `左クリック` - 射撃
 
-**Gamepad:**
-- `Left Stick` - Move
-- `A/Cross` - Jump
-- `Right Trigger` - Shoot
-- `X/Square` - Interact/Pick up weapons
-- `Start` - Pause menu
+**ゲームパッド:**
+- `左スティック` - 移動
+- `A/Cross` - ジャンプ
+- `右トリガー` - 射撃
+- `X/Square` - インタラクト/武器を拾う
+- `Start` - ポーズメニュー
 
-*Controls can be remapped in the settings menu*
+*操作は設定メニューでリマップ可能*
 
-## 📂 Project Structure
+## 📂 プロジェクト構造
 
 ```
 The-Outlander/
-├── 新しいゲームプロジェクト/       # Main game directory
-│   ├── Background/              # Background assets
-│   ├── Character/               # Character sprites and animations
-│   │   ├── MainCharacter/      # Player character assets
-│   │   ├── NormalEnemy/        # Enemy character assets
-│   │   └── Weapon/             # Weapon sprites
-│   ├── Material/               # Environment tiles and materials
-│   ├── UI/                     # User interface elements
-│   ├── *.gd                    # GDScript game logic files
-│   ├── *.tscn                  # Godot scene files
-│   └── project.godot           # Godot project configuration
+├── 新しいゲームプロジェクト/       # メインゲームディレクトリ
+│   ├── Background/              # 背景アセット
+│   ├── Character/               # キャラクタースプライトとアニメーション
+│   │   ├── MainCharacter/      # プレイヤーキャラクターアセット
+│   │   ├── NormalEnemy/        # 敵キャラクターアセット
+│   │   └── Weapon/             # 武器スプライト
+│   ├── Material/               # 環境タイルとマテリアル
+│   ├── UI/                     # ユーザーインターフェース要素
+│   ├── *.gd                    # GDScriptゲームロジックファイル
+│   ├── *.tscn                  # Godotシーンファイル
+│   └── project.godot           # Godotプロジェクト設定
 └── README.md
 ```
 
-## 🛠️ Development
+## 🛠️ 開発
 
-### Project Objectives
+### プロジェクト目標
 
-- ✅ Core platform-shooter mechanics (jumping, shooting, weapon pickups)
-- ✅ AI-controlled enemies with basic behavior
-- ✅ Character and enemy animations
-- ✅ Basic UI system
-- 🔄 Story-driven campaign mode
-- 🔄 Dynamic difficulty adjustment
-- 🔄 Character customization system
-- 🔄 Advanced weapon variety and power-ups
-- ⏳ Sound effects and background music
-- ⏳ Tutorial/help screens
-- ⏳ Final boss battle
-- ⏳ Complete documentation
+- ✅ コアプラットフォームシューターメカニクス（ジャンプ、射撃、武器ピックアップ）
+- ✅ 基本的な動作を持つAI制御敵
+- ✅ キャラクターと敵のアニメーション
+- ✅ 基本UIシステム
+- 🔄 ストーリー駆動キャンペーンモード
+- 🔄 ダイナミック難易度調整
+- 🔄 キャラクターカスタマイゼーションシステム
+- 🔄 高度な武器バリエーションとパワーアップ
+- ⏳ 効果音とBGM
+- ⏳ チュートリアル/ヘルプ画面
+- ⏳ 最終ボス戦
+- ⏳ 完全なドキュメント
 
-*Legend: ✅ Complete | 🔄 In Progress | ⏳ Planned*
+*凡例: ✅ 完了 | 🔄 進行中 | ⏳ 予定*
 
-### Technical Specifications
+### 技術仕様
 
-**Engine:** Godot 4.x  
-**Language:** GDScript  
-**Resolution:** 1152x648 (Windowed)  
-**Target FPS:** 60  
-**Platform:** PC (Windows, macOS, Linux)
+**エンジン:** Godot 4.x  
+**言語:** GDScript  
+**解像度:** 1152x648 (ウィンドウ)  
+**目標FPS:** 60  
+**プラットフォーム:** PC (Windows, macOS, Linux)
 
-### Game Systems
+### ゲームシステム
 
-- **Combat System**: Fast-paced shooting with multiple weapon types
-- **Movement System**: Responsive platforming with jump mechanics
-- **AI System**: Dynamic bot behavior with difficulty scaling
-- **Progression System**: Character stats and upgrades
-- **UI System**: Menus for story, customization, and settings
+- **戦闘システム**: 複数の武器タイプを持つテンポの速いシューティング
+- **移動システム**: ジャンプメカニクスを備えた応答性の高いプラットフォーム
+- **AIシステム**: 難易度スケーリングを持つダイナミックなボット動作
+- **進行システム**: キャラクター統計とアップグレード
+- **UIシステム**: ストーリー、カスタマイゼーション、設定のメニュー
 
-## 🎨 Assets
+## 🎨 アセット
 
-All game assets including character sprites, animations, environment tiles, weapons, and UI elements are included in the project directories:
+キャラクタースプライト、アニメーション、環境タイル、武器、UI要素を含むすべてのゲームアセットは、プロジェクトディレクトリに含まれています：
 
-- **Character Animations**: Idle, Walk, Attack, Hurt, Death
-- **Enemy Types**: Orc warriors with full animation sets
-- **Weapons**: Pistol ammunition and projectiles
-- **Environments**: Background layers and tileset materials
-- **UI Components**: Health bars and decorative elements
+- **キャラクターアニメーション**: 待機、歩行、攻撃、負傷、死亡
+- **敵のタイプ**: 完全なアニメーションセットを持つオーク戦士
+- **武器**: ピストル弾薬と発射体
+- **環境**: 背景レイヤーとタイルセットマテリアル
+- **UIコンポーネント**: ヘルスバーと装飾要素
 
-## 🤝 Contributing
+## 🤝 貢献
 
-This is an academic project, but feedback and suggestions are welcome! Feel free to:
+これは学術プロジェクトですが、フィードバックと提案を歓迎します！お気軽に：
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. リポジトリをフォーク
+2. フィーチャーブランチを作成 (`git checkout -b feature/AmazingFeature`)
+3. 変更をコミット (`git commit -m 'Add some AmazingFeature'`)
+4. ブランチにプッシュ (`git push origin feature/AmazingFeature`)
+5. プルリクエストを開く
 
-## 📝 Documentation
+## 📝 ドキュメント
 
-Comprehensive documentation includes:
+包括的なドキュメントには以下が含まれます：
 
-- Design decisions and gameplay philosophy
-- AI behavior algorithms and implementation
-- Technical specifications and architecture
-- Character progression and balance systems
-- Level design and narrative structure
+- 設計決定とゲームプレイ哲学
+- AI動作アルゴリズムと実装
+- 技術仕様とアーキテクチャ
+- キャラクター進行とバランスシステム
+- レベルデザインと物語構造
 
-*(Detailed documentation coming soon)*
+*（詳細なドキュメントは近日公開）*
 
-## 🎯 Project Value
+## 🎯 プロジェクトの価値
 
-The Outlander addresses a gap in the platform shooter genre by combining:
+The Outlanderは、以下を組み合わせることでプラットフォームシューターというジャンルのギャップに対処しています：
 
-- **Narrative Depth**: Many platform shooters lack compelling stories
-- **Intelligent AI**: Advanced bot opponents that grow with the player
-- **Sustained Challenge**: Dynamic difficulty ensures long-term engagement
-- **Character Investment**: Customization and backstories create player connection
+- **物語の深さ**: 多くのプラットフォームシューターには魅力的なストーリーが欠けています
+- **インテリジェントAI**: プレイヤーと共に成長する高度なボット対戦相手
+- **持続的な挑戦**: ダイナミック難易度が長期的なエンゲージメントを確保
+- **キャラクターへの投資**: カスタマイゼーションと背景ストーリーがプレイヤーとのつながりを生み出す
 
-## 📜 License
+## 📜 ライセンス
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+このプロジェクトはMITライセンスの下でライセンスされています - 詳細については[LICENSE](LICENSE)ファイルを参照してください。
 
-## 👥 Authors
+## 👥 作成者
 
-- **Hinata Nguyen** - *Initial work* - [@hinatanguyen](https://github.com/hinatanguyen)
+- **Hinata Nguyen** - *初期作業* - [@hinatanguyen](https://github.com/hinatanguyen)
 
-## 🙏 Acknowledgments
+## 🙏 謝辞
 
-- Inspired by **Gun Mayhem** (Gu & Eksiri, 2011)
-- Inspired by **Broforce** (Free Lives, 2015)
-- Built with [Godot Engine](https://godotengine.org/)
+- **Gun Mayhem**（Gu & Eksiri, 2011）にインスパイア
+- **Broforce**（Free Lives, 2015）にインスパイア
+- [Godot Engine](https://godotengine.org/)で構築
 
-## 📧 Contact
+## 📧 連絡先
 
-Project Link: [https://github.com/hinatanguyen/The-Outlander](https://github.com/hinatanguyen/The-Outlander)
+プロジェクトリンク: [https://github.com/hinatanguyen/The-Outlander](https://github.com/hinatanguyen/The-Outlander)
 
 ---
 
-**Status**: In Development | **Branch**: dev | **Last Updated**: December 2025
+**ステータス**: 開発中 | **ブランチ**: dev | **最終更新**: 2025年12月
