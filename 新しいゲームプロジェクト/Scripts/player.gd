@@ -27,7 +27,7 @@ func _physics_process(delta):
 			velocity.y += gravity * delta
 		move_and_slide()
 		return
-
+	
 	# 重力
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -35,12 +35,11 @@ func _physics_process(delta):
 	# 攻撃（左クリック）
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		perform_attack()
-
+	
 	# 移動処理
 	if not is_attacking:
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
-
 		var direction = Input.get_axis("move_left", "move_right")
 		
 		if direction:
@@ -53,13 +52,10 @@ func _physics_process(delta):
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			anim.play("idle")
-
+	
 	move_and_slide()
 
 # --- 行動処理 ---
-
-
-
 func perform_attack():
 	is_attacking = true
 	if is_on_floor():
@@ -76,10 +72,8 @@ func shoot():
 			bullet.direction = 1
 		get_tree().current_scene.add_child(bullet)
 		bullet.global_position = muzzle.global_position
-		
-# --- ダメージ処理（更新版） ---
 
-# Orc が送ってくるダメージ量（1）を受け取れるようにした
+# --- ダメージ処理 ---
 func take_damage(damage_amount):
 	if is_hurt or is_dead: return
 	
@@ -91,11 +85,11 @@ func take_damage(damage_amount):
 	else:
 		is_hurt = true
 		
-		# ノックバック（攻撃を受けた方向と逆に吹っ飛ぶ）
+		# ノックバック
 		if anim.flip_h == false:
-			velocity.x = -200 # 左へ吹っ飛び
+			velocity.x = -200
 		else:
-			velocity.x = 200  # 右へ吹っ飛び
+			velocity.x = 200
 			
 		anim.play("hurt")
 
@@ -105,19 +99,35 @@ func die():
 		
 	is_dead = true
 	velocity.x = 0
+	
+	# プレイヤー死亡時の処理（デバッグ用のprintを削除）
+	
+	# Disable physics processing immediately
+	set_physics_process(false)
+	set_process(false)
+	
+	# プレイヤー死亡アニメーション
 	anim.play("death")
+	
+	# コリジョンを無効化
 	collision_shape.set_deferred("disabled", true)
 	
-	# --- ADD THIS LINE HERE ---
-	# This saves the current scene path to your Global singleton
-	Global.current_level_path = get_tree().current_scene.scene_file_path
-	# --------------------------
-
-	# Wait for death animation
+	# 現在のレベルの保存
+	if get_tree() and get_tree().current_scene:
+		Global.current_level_path = get_tree().current_scene.scene_file_path
+	
+	# 死亡アニメーションの後に待機
 	await get_tree().create_timer(1.5).timeout
 	
-	if get_tree():
-		get_tree().change_scene_to_file("res://Scene/GameOver.tscn")
+	# シーン変更前に有効か確認
+	if not is_instance_valid(self):
+		return
+	
+	if not get_tree():
+		return
+	
+	# ゲームオーバーシーンに遷移
+	get_tree().call_deferred("change_scene_to_file", "res://Scene/GameOver.tscn")
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "attack":
@@ -128,7 +138,7 @@ func _on_animated_sprite_2d_animation_finished():
 		is_hurt = false
 		anim.play("idle")
 
-# KEY_H を押したときのテストダメージ（10）
+# Test damage with H key (テスト用のキーイベント)
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_H:	

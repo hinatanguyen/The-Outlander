@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmq14c63aqpo5"]
 
-[ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_l3thc"]
+[ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/level1_background.png" id="1_l3thc"]
 
 [sub_resource type="TileSet" id="TileSet_dpw2a"]
 

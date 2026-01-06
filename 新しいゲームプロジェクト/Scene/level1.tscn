@@ -1,7 +1,7 @@
 [gd_scene load_steps=59 format=4 uid="uid://carsnogy8cle5"]
 
-[ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/Background_1.png" id="1_wyh1x"]
-[ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/Tiles.png" id="2_3lspw"]
+[ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/level1_background.png" id="1_wyh1x"]
+[ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/level1_tiles.png" id="2_3lspw"]
 [ext_resource type="Script" uid="uid://cqhkkgs5ohoo8" path="res://Scripts/player.gd" id="3_hwwuo"]
 [ext_resource type="PackedScene" uid="uid://l18cd7hotqki" path="res://Scene/bullet.tscn" id="4_nugbu"]
 [ext_resource type="Texture2D" uid="uid://dl402pvdsimaw" path="res://Character/MainCharacter/Soldier-Attack01.png" id="5_sdkkf"]
@@ -1826,6 +1826,7 @@ shape = SubResource("RectangleShape2D_k73cj")
 
 [node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("portal_spawn_marker")]
 script = ExtResource("18_l4g8e")
+next_level_path = "res://Scene/level2.tscn"
 portal_scene = ExtResource("19_7qr5h")
 portal_spawn_marker = NodePath("../PortalSpawnPoint")
 

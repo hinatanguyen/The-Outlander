@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var spawner: Node2D  # Drag your enemy_spawner here
+@export var spawner: Node2D
 
 var triggered = false
 

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doc107ub2qd80"
-valid=false
+uid="uid://bqsjcc7ahpt45"
+path="res://.godot/imported/level1_background.png-2e1d2a4f17a7dab4c5a1a398e28fd166.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://gameover.png"
+source_file="res://Background/level1_background.png"
+dest_files=["res://.godot/imported/level1_background.png-2e1d2a4f17a7dab4c5a1a398e28fd166.ctex"]
 
 [params]
 

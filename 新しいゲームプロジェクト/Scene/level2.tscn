@@ -1,7 +1,7 @@
 [gd_scene load_steps=54 format=4 uid="uid://d1cs22jqh8m3g"]
 
-[ext_resource type="Texture2D" uid="uid://bpwjnic5akgbk" path="res://Background/Background_2.png" id="1_pf02i"]
-[ext_resource type="Texture2D" uid="uid://b12wwvd21fx8" path="res://Material/Level2.png" id="2_7ymek"]
+[ext_resource type="Texture2D" uid="uid://bpwjnic5akgbk" path="res://Background/level2_background.png" id="1_pf02i"]
+[ext_resource type="Texture2D" uid="uid://b12wwvd21fx8" path="res://Material/level2_tiles.png" id="2_7ymek"]
 [ext_resource type="Script" uid="uid://cqhkkgs5ohoo8" path="res://Scripts/player.gd" id="3_h8271"]
 [ext_resource type="PackedScene" uid="uid://l18cd7hotqki" path="res://Scene/bullet.tscn" id="4_he5ac"]
 [ext_resource type="Texture2D" uid="uid://dl402pvdsimaw" path="res://Character/MainCharacter/Soldier-Attack01.png" id="5_1am6n"]
@@ -59,7 +59,7 @@ texture = ExtResource("2_7ymek")
 11:1/0 = 0
 11:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:1/0 = 0
-12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -1.7985878, 1.2590122, 0.71943474, -0.8992939, 8, -8, 8, 8, -8, 8)
+12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -0.8992939, 0.17985916, 8, 8, -8, 8)
 13:1/0 = 0
 14:1/0 = 0
 15:1/0 = 0
