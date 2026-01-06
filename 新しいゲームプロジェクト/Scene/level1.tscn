@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=60 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/level1_background.png" id="1_wyh1x"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/level1_tiles.png" id="2_3lspw"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://x5h7ojqkiqys" path="res://Scripts/trigger.gd" id="17_101n0"]
 [ext_resource type="Script" uid="uid://cfjw2ppx50v2g" path="res://Scripts/level_manager.gd" id="18_l4g8e"]
 [ext_resource type="PackedScene" uid="uid://khls41eil850" path="res://Scene/portal.tscn" id="19_7qr5h"]
+[ext_resource type="AudioStream" uid="uid://cnk5v1nkcihgp" path="res://Music/level1_bgm.mp3" id="20_3lspw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("2_3lspw")
@@ -1832,6 +1833,10 @@ portal_spawn_marker = NodePath("../PortalSpawnPoint")
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(164, -269)
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("20_3lspw")
+autoplay = true
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/CanvasLayer/HUD" method="_on_player_health_changed"]

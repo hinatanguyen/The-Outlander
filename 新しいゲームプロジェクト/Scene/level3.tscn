@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://dj37m6ogovit6"]
+[gd_scene load_steps=61 format=4 uid="uid://dj37m6ogovit6"]
 
 [ext_resource type="Texture2D" uid="uid://c5ai8v5sck1op" path="res://Background/level3_background.png" id="1_c4s5l"]
 [ext_resource type="Texture2D" uid="uid://c235benoyfi8u" path="res://Material/level3_tiles.png" id="2_8tpoo"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://cfjw2ppx50v2g" path="res://Scripts/level_manager.gd" id="17_kkojf"]
 [ext_resource type="PackedScene" uid="uid://khls41eil850" path="res://Scene/portal.tscn" id="18_5lb7l"]
 [ext_resource type="Script" uid="uid://c2r267qm1jk5" path="res://Scripts/killzone.gd" id="20_bg65o"]
+[ext_resource type="AudioStream" uid="uid://bmj7uv3nhek64" path="res://Music/level3_bgm.mp3" id="21_5p8bu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5p8bu"]
 texture = ExtResource("2_bg65o")
@@ -554,6 +555,10 @@ shape = SubResource("RectangleShape2D_8tpoo")
 [node name="Killzone2" type="CollisionShape2D" parent="Killzone"]
 position = Vector2(936, 525.5)
 shape = SubResource("RectangleShape2D_bg65o")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("21_5p8bu")
+autoplay = true
 
 [connection signal="health_changed" from="World/Player" to="World/Player" method="_on_health_changed"]
 [connection signal="health_changed" from="World/Player" to="World/CanvasLayer/HUD" method="_on_player_health_changed"]
