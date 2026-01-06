@@ -1,4 +1,3 @@
-pause_menu.gd
 extends CanvasLayer
 
 @onready var volume_slider = $CenterContainer/Panel/VolumeSlider

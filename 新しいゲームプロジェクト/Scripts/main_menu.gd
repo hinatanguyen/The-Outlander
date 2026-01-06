@@ -1,4 +1,3 @@
-main_menu.gd
 extends Control
 
 @onready var start_button = $StartButton
