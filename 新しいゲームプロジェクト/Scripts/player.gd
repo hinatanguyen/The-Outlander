@@ -4,6 +4,11 @@ signal health_changed(new_value)
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -650.0
+const MAX_HEALTH = 100
+const REGEN_DELAY = 3.0  # 3秒間ダメージを受けなければ回復開始
+const REGEN_AMOUNT = 5   # 毎回の回復量
+const REGEN_INTERVAL = 0.5  # 0.5秒ごとに回復
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var anim = $AnimatedSprite2D
@@ -16,10 +21,18 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var is_attacking = false
 var is_hurt = false
 var is_dead = false
-var health = 100 
+var health = 100
+
+# 回復システム用の変数
+var time_since_last_damage = 0.0
+var time_since_last_regen = 0.0
+var is_regenerating = false
 
 func _physics_process(delta):
 	if is_dead: return 
+	
+	# 回復システムの更新
+	update_health_regeneration(delta)
 	
 	# ダメージ中
 	if is_hurt:
@@ -55,6 +68,33 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+# --- 回復システム ---
+func update_health_regeneration(delta):
+	# 体力が満タンなら回復不要
+	if health >= MAX_HEALTH:
+		is_regenerating = false
+		return
+	
+	# 最後のダメージからの経過時間を追跡
+	time_since_last_damage += delta
+	
+	# 一定時間ダメージを受けていない場合、回復開始
+	if time_since_last_damage >= REGEN_DELAY:
+		if not is_regenerating:
+			is_regenerating = true
+			time_since_last_regen = 0.0
+		
+		# 回復インターバルごとに体力を回復
+		time_since_last_regen += delta
+		if time_since_last_regen >= REGEN_INTERVAL:
+			regenerate_health()
+			time_since_last_regen = 0.0
+
+func regenerate_health():
+	if health < MAX_HEALTH:
+		health = min(health + REGEN_AMOUNT, MAX_HEALTH)
+		health_changed.emit(health)
+
 # --- 行動処理 ---
 func perform_attack():
 	is_attacking = true
@@ -80,6 +120,10 @@ func take_damage(damage_amount):
 	health -= damage_amount
 	health_changed.emit(health)
 	
+	# ダメージを受けたら回復タイマーをリセット
+	time_since_last_damage = 0.0
+	is_regenerating = false
+	
 	if health <= 0:
 		die()
 	else:
@@ -99,8 +143,6 @@ func die():
 		
 	is_dead = true
 	velocity.x = 0
-	
-	# プレイヤー死亡時の処理（デバッグ用のprintを削除）
 	
 	# Disable physics processing immediately
 	set_physics_process(false)

@@ -1,9 +1,53 @@
-[gd_scene load_steps=21 format=3 uid="uid://bpehkylpiy6p"]
+[gd_scene load_steps=21 format=3 uid="uid://cadd40jqeh6mo"]
 
-[ext_resource type="Script" uid="uid://dfnrspwvihdea" path="res://Scripts/dummy.gd" id="1_1324b"]
 [ext_resource type="Texture2D" uid="uid://deyrdfwq4ayye" path="res://Character/Dummy/Dying_KG_1.png" id="2_1324b"]
 [ext_resource type="Texture2D" uid="uid://u32imqqpv80l" path="res://Character/Dummy/Hurt_KG_1.png" id="3_stcs8"]
 [ext_resource type="Texture2D" uid="uid://cfddh0wr2cwsj" path="res://Character/Dummy/Idle_KG_1.png" id="4_0lhgj"]
+
+[sub_resource type="GDScript" id="GDScript_rcqeu"]
+script/source = "extends CharacterBody2D
+
+# 重力の強さ
+const GRAVITY = 900.0
+
+@onready var anim = $AnimatedSprite2D
+@onready var collision_shape = $CollisionShape2D
+@onready var hurtbox = $Hurtbox
+
+# 体力
+var health = 10
+# 死亡しているかどうか
+var is_dead = false
+# ダメージを受けている最中かどうか
+var is_hurt = false
+
+func _ready():
+	# 初期状態ではアイドルアニメーションを再生
+	anim.play(\"idle\")
+
+func _physics_process(delta):
+	if is_dead:
+		return
+	
+	# 重力を適用
+	if not is_on_floor():
+		velocity.y += GRAVITY * delta
+	
+	# ダメージ中は動かない
+	if is_hurt:
+		velocity.x = 0
+		move_and_slide()
+		return
+	
+	# ダミーは移動せず、その場で待機
+	velocity.x = 0
+	if not is_hurt:
+		anim.play(\"idle\")
+	
+	move_and_slide()
+
+# --- ダ
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k6daa"]
 atlas = ExtResource("2_1324b")
@@ -123,7 +167,7 @@ radius = 26.0
 [node name="Dummy" type="CharacterBody2D" groups=["enemy"]]
 z_index = 5
 collision_layer = 16
-script = ExtResource("1_1324b")
+script = SubResource("GDScript_rcqeu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_h24kr")

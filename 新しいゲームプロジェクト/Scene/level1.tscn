@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://carsnogy8cle5"]
+[gd_scene load_steps=59 format=4 uid="uid://carsnogy8cle5"]
 
 [ext_resource type="Texture2D" uid="uid://bqsjcc7ahpt45" path="res://Background/level1_background.png" id="1_wyh1x"]
 [ext_resource type="Texture2D" uid="uid://bbqodpwdhipb5" path="res://Material/level1_tiles.png" id="2_3lspw"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://dk1ktyr6ufw27" path="res://Scripts/tutorial_ui.gd" id="13_y1l13"]
 [ext_resource type="Script" uid="uid://q38mrbkgpvlo" path="res://Scripts/enemy_spawner.gd" id="14_na608"]
 [ext_resource type="PackedScene" uid="uid://dgdjco784tj1h" path="res://Scene/orc.tscn" id="15_b7un4"]
-[ext_resource type="PackedScene" uid="uid://bpehkylpiy6p" path="res://Scene/dummy.tscn" id="16_5aipi"]
 [ext_resource type="Script" uid="uid://x5h7ojqkiqys" path="res://Scripts/trigger.gd" id="17_101n0"]
 [ext_resource type="Script" uid="uid://cfjw2ppx50v2g" path="res://Scripts/level_manager.gd" id="18_l4g8e"]
 [ext_resource type="PackedScene" uid="uid://khls41eil850" path="res://Scene/portal.tscn" id="19_7qr5h"]
@@ -1804,9 +1803,6 @@ position = Vector2(5813, 4)
 position = Vector2(-4256, 121)
 rotation = -1.5707964
 shape = SubResource("WorldBoundaryShape2D_nr8wp")
-
-[node name="Dummy" parent="." instance=ExtResource("16_5aipi")]
-position = Vector2(-1363, 98)
 
 [node name="SpawnerTrigger1" type="Area2D" parent="."]
 collision_mask = 2
