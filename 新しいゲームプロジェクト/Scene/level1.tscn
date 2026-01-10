@@ -1753,23 +1753,25 @@ layout_mode = 0
 offset_left = 440.0
 offset_top = 8.0
 offset_right = 637.0
-offset_bottom = 107.0
+offset_bottom = 130.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="World/CanvasLayer/TutorialUI/HelpPanel"]
 layout_mode = 0
 offset_left = 5.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 243.0
-offset_bottom = 97.0
+offset_bottom = 120.0
 text = "A/D: Move
 W: Jump
 Mouse Button 1: Attack
+F: Toggle Tutorial
 ESC: Settings"
 
 [node name="EnemySpawner" type="Node2D" parent="." groups=["spawners"]]
 position = Vector2(-82, -67)
 script = ExtResource("14_na608")
 enemy_scene = ExtResource("15_b7un4")
+spawn_interval = 1.0
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(-123, -117)
@@ -1781,6 +1783,7 @@ position = Vector2(197, -100)
 position = Vector2(176, -532)
 script = ExtResource("14_na608")
 enemy_scene = ExtResource("15_b7un4")
+spawn_interval = 1.0
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner2"]
 position = Vector2(-226, -9)
