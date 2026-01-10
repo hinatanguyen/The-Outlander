@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://d1cs22jqh8m3g"]
+[gd_scene load_steps=56 format=4 uid="uid://d1cs22jqh8m3g"]
 
 [ext_resource type="Texture2D" uid="uid://bpwjnic5akgbk" path="res://Background/level2_background.png" id="1_pf02i"]
 [ext_resource type="Texture2D" uid="uid://b12wwvd21fx8" path="res://Material/level2_tiles.png" id="2_7ymek"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://cfjw2ppx50v2g" path="res://Scripts/level_manager.gd" id="17_lin54"]
 [ext_resource type="PackedScene" uid="uid://khls41eil850" path="res://Scene/portal.tscn" id="18_eepdj"]
 [ext_resource type="AudioStream" uid="uid://c5pi77y1dmvqq" path="res://Music/level2_bgm.mp3" id="19_7ymek"]
+[ext_resource type="PackedScene" uid="uid://bq5v3r48k2np" path="res://Scene/npc2.tscn" id="20_npc2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hp87d"]
 texture = ExtResource("2_7ymek")
@@ -726,10 +727,14 @@ W: Jump
 Mouse Button 1: Attack
 ESC: Settings"
 
+[node name="NPC" parent="World" instance=ExtResource("20_npc2")]
+position = Vector2(-425, 38.333332)
+
 [node name="EnemySpawner" type="Node2D" parent="." groups=["spawners"]]
 position = Vector2(574, -233)
 script = ExtResource("14_w42yd")
 enemy_scene = ExtResource("15_v3n06")
+total_spawns_limit = 20
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(-123, -117)
@@ -741,6 +746,7 @@ position = Vector2(197, -100)
 position = Vector2(-47, -536)
 script = ExtResource("14_w42yd")
 enemy_scene = ExtResource("15_v3n06")
+total_spawns_limit = 20
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner2"]
 position = Vector2(-226, -9)

@@ -29,7 +29,17 @@ func _on_scene_changed(node):
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		toggle_pause()
+		# Check if any NPC dialogue is active
+		var npcs = get_tree().get_nodes_in_group("npc")
+		var dialogue_active = false
+		for npc in npcs:
+			if npc.has_meta("dialogue_active") or (npc.get("dialogue_active") != null and npc.dialogue_active):
+				dialogue_active = true
+				break
+		
+		# Only toggle pause if no dialogue is active
+		if not dialogue_active:
+			toggle_pause()
 
 func toggle_pause():
 	var new_pause_state = !get_tree().paused
