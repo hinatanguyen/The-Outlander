@@ -3,8 +3,8 @@ extends Node2D
 @export_group("Enemy 設定")
 @export var enemy_scene: PackedScene
 @export var spawn_interval: float = 2.0
-@export var max_enemies: int = 40 # 画面上に同時に存在できる最大数
-@export var total_spawns_limit: int = 10 # この数までスポーンしたら停止
+@export var max_enemies: int = 20 # 画面上に同時に存在できる最大数
+@export var total_spawns_limit: int = 20 # この数までスポーンしたら停止
 
 @export_group("状態")
 @export var is_active: bool = false 
