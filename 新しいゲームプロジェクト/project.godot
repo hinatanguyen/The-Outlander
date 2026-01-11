@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="新しいゲームプロジェクト"
-run/main_scene="uid://dj37m6ogovit6"
+run/main_scene="uid://bylylixg4l6km"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
