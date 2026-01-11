@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://bvooonak7qg8i"]
+[gd_scene load_steps=44 format=3 uid="uid://bvooonak7qg8i"]
 
 [ext_resource type="PackedScene" uid="uid://cqt0i3bjm3n5g" path="res://Scene/BossFight.tscn" id="1_6drui"]
 [ext_resource type="Script" uid="uid://cqhkkgs5ohoo8" path="res://Scripts/player.gd" id="2_74uwk"]
@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://cf2nxnxbkcqah" path="res://Character/MainCharacter/Soldier-Hurt.png" id="6_otcud"]
 [ext_resource type="Texture2D" uid="uid://difpxsvhehv76" path="res://Character/MainCharacter/Soldier-Idle.png" id="7_4r786"]
 [ext_resource type="Texture2D" uid="uid://clmbuu7xxhojh" path="res://Character/MainCharacter/Soldier-Walk.png" id="8_my8eq"]
+[ext_resource type="Script" uid="uid://dt24fa62owx7r" path="res://Scripts/hud.gd" id="9_otcud"]
+[ext_resource type="Texture2D" uid="uid://bcy4juutbqj73" path="res://UI/health_bar_decoration.png" id="10_4r786"]
+[ext_resource type="Texture2D" uid="uid://ctmoumi6ulfrj" path="res://UI/health_bar.png" id="11_my8eq"]
+[ext_resource type="Script" uid="uid://dk1ktyr6ufw27" path="res://Scripts/tutorial_ui.gd" id="12_tsdsu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6drui"]
 size = Vector2(5337, 154)
@@ -243,12 +247,12 @@ height = 18.666666
 [node name="BossArea" type="Node2D"]
 
 [node name="BossFight" parent="." instance=ExtResource("1_6drui")]
-position = Vector2(344, 77)
+position = Vector2(272, 201)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-552.5, 313)
+position = Vector2(-552, 359)
 shape = SubResource("RectangleShape2D_6drui")
 
 [node name="Player" type="CharacterBody2D" parent="." groups=["player"]]
@@ -273,6 +277,68 @@ shape = SubResource("CapsuleShape2D_qlp72")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0.6666667, -0.6666667)
 zoom = Vector2(0.5, 0.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="CanvasLayer"]
+script = ExtResource("9_otcud")
+
+[node name="UI_Container" type="Control" parent="CanvasLayer/HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = 6.0
+offset_right = 17.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+
+[node name="HealthBarFrame" type="TextureRect" parent="CanvasLayer/HUD/UI_Container"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 25.0
+offset_right = 179.0
+offset_bottom = 65.0
+texture = ExtResource("10_4r786")
+
+[node name="HealthFill" type="TextureRect" parent="CanvasLayer/HUD/UI_Container/HealthBarFrame"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 1.0
+offset_right = 174.0
+offset_bottom = 40.0
+texture = ExtResource("11_my8eq")
+
+[node name="TutorialUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_tsdsu")
+
+[node name="HelpPanel" type="Panel" parent="CanvasLayer/TutorialUI"]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 8.0
+offset_right = 637.0
+offset_bottom = 130.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/TutorialUI/HelpPanel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 1.0
+offset_right = 243.0
+offset_bottom = 120.0
+text = "A/D: Move
+W: Jump
+Mouse Button 1: Attack
+F: Toggle Tutorial
+ESC: Settings"
 
 [connection signal="health_changed" from="Player" to="Player" method="_on_health_changed"]
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]

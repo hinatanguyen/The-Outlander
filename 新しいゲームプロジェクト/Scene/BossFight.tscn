@@ -1,4 +1,4 @@
-[gd_scene load_steps=129 format=3 uid="uid://cqt0i3bjm3n5g"]
+[gd_scene load_steps=131 format=3 uid="uid://cqt0i3bjm3n5g"]
 
 [ext_resource type="Script" uid="uid://ecpotdnw8ci2" path="res://Scripts/boss.gd" id="1_uowko"]
 [ext_resource type="Texture2D" uid="uid://b31mckj1srpf5" path="res://Character/Boss/Phase 2/OrcTransform.png" id="1_ytj0k"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://bybttnrr8g3pr" path="res://Character/Boss/Phase 1/Motion_animations_1_Spritelist.png" id="7_ngrew"]
 [ext_resource type="Texture2D" uid="uid://dxeug5i5cxvlq" path="res://Character/Boss/Phase 1/Punch_1.png" id="8_flaws"]
 [ext_resource type="Texture2D" uid="uid://cqanvrc2ea4pp" path="res://Character/Boss/Phase 1/Slide_Attack.png" id="9_2jy53"]
+[ext_resource type="Texture2D" uid="uid://2na83rqbr54d" path="res://healthbarboss.png" id="11_wkast"]
+[ext_resource type="Texture2D" uid="uid://dfro57y5nhhwi" path="res://healthcontent.png" id="12_oqfsj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6210o"]
 atlas = ExtResource("2_hkt6i")
@@ -877,8 +879,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hkt6i"]
-radius = 14.0
-height = 72.0
+radius = 11.0
+height = 86.0
 
 [node name="BossFight" type="Node2D"]
 
@@ -887,20 +889,17 @@ collision_layer = 2
 script = ExtResource("1_uowko")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Boss"]
-position = Vector2(0, -30)
+position = Vector2(-3, 0)
 sprite_frames = SubResource("SpriteFrames_6210o")
 animation = &"Turning_Orc"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
+position = Vector2(-2, 19)
 shape = SubResource("CapsuleShape2D_hkt6i")
 
 [node name="Timer" type="Timer" parent="Boss"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Boss"]
-
-[node name="HealthBar" type="ProgressBar" parent="Boss/CanvasLayer"]
-offset_right = 4.0
-offset_bottom = 27.0
 
 [node name="DialogPanel" type="Panel" parent="Boss/CanvasLayer"]
 offset_right = 40.0
@@ -910,5 +909,20 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="Boss/CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = 36.0
+offset_right = 791.0
+offset_bottom = 152.0
+grow_horizontal = 2
+scale = Vector2(0.3, 0.3)
+max_value = 500.0
+value = 500.0
+texture_over = ExtResource("11_wkast")
+texture_progress = ExtResource("12_oqfsj")
 
 [node name="Muzzle" type="Marker2D" parent="Boss"]
