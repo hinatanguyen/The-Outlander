@@ -2,7 +2,7 @@ extends Node
 
 @export_group("Level Settings")
 @export var next_level_path: String = "res://Scene/level3.tscn"
-@export var enemies_to_defeat: int = 1
+@export var enemies_to_defeat: int = 20
 
 @export_group("Portal Settings")
 @export var portal_scene: PackedScene
