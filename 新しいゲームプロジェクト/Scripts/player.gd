@@ -22,8 +22,6 @@ var is_attacking = false
 var is_hurt = false
 var is_dead = false
 var health = 100
-var knockback_duration = 0.4  # How long knockback lasts (in seconds)
-var knockback_timer = 0.0  # Current knockback timer
 
 # 回復システム用の変数
 var time_since_last_damage = 0.0
@@ -41,11 +39,12 @@ func _physics_process(delta):
 	
 	# ダメージ中
 	if is_hurt:
-		knockback_timer -= delta
-		if knockback_timer <= 0:
-			velocity.x = 0  # Stop knockback sliding
+		# ノックバックは重力のみ適用（velocity.xはtake_damage関数で設定済み）
 		if not is_on_floor():
 			velocity.y += gravity * delta
+		else:
+			# 地面についたらノックバックを減衰させる
+			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 5)
 		move_and_slide()
 		return
 	
@@ -136,9 +135,8 @@ func take_damage(damage_amount):
 		die()
 	else:
 		is_hurt = true
-		knockback_timer = knockback_duration  # Start knockback timer
 		
-		# ノックバック
+		# ノックバック（一度だけ設定）
 		if anim.flip_h == false:
 			velocity.x = -200
 		else:

@@ -1,40 +1,67 @@
-extends Area2D
+extends CanvasLayer
 
-# 次のシーンのパスを設定
-@export var next_scene_path: String = "" 
-var is_changing_scene: bool = false
+@onready var volume_slider = $CenterContainer/Panel/VolumeSlider
+@onready var resume_button = $CenterContainer/Panel/Button
+@onready var main_menu_button = $CenterContainer/Panel/Button2
 
 func _ready():
-	# シグナルが接続されていない場合に接続
-	if not body_entered.is_connected(_on_body_entered):
-		body_entered.connect(_on_body_entered)
-		
-	# アニメーションがある場合、デフォルトのアニメーションを再生
-	if has_node("AnimatedSprite2D"):
-		$AnimatedSprite2D.play("default")
-
-# プレイヤーがポータルに入ったときの処理
-func _on_body_entered(body):
-	if is_changing_scene:
-		return
-		
-	if body.name == "Player" or body.is_in_group("player"):
-		# パスが空の場合は警告
-		if next_scene_path == "":
-			print("警告: 次のシーンのパスが設定されていません！")
-			return
-			
-		is_changing_scene = true
-		# 遅延実行でシーン切り替え
-		call_deferred("change_level")
-
-# シーン変更の実行
-func change_level():
-	if not ResourceLoader.exists(next_scene_path):
-		push_error("シーンが存在しません: ", next_scene_path)
-		return
+	# 他のUI（HUDなど）より前面に表示するためにレイヤーを設定
+	layer = 128
+	# 初期状態は非表示
+	hide()
+	# ポーズ中もこのスクリプトが動作するように設定
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	# 注意: ここにあった CanvasLayer を削除するループは、
-	# Autoload のポーズメニューまで消してしまうため削除しました。
+	# 各ボタンとスライダーのシグナル接続
+	resume_button.pressed.connect(_on_resume_button_pressed)
+	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
+	volume_slider.value_changed.connect(_on_volume_slider_value_changed)
 	
-	get_tree().change_scene_to_file(next_scene_path)
+	# ボリュームの初期化
+	_on_volume_slider_value_changed(volume_slider.value)
+
+func _input(event):
+	# ESCキー（ui_cancel）が押されたらポータル状態を切り替え
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+
+func toggle_pause():
+	# ゲームの停止状態を反転
+	var new_pause_state = !get_tree().paused
+	get_tree().paused = new_pause_state
+	# メニューの表示・非表示を切り替え
+	visible = new_pause_state
+	
+	if new_pause_state:
+		# マウスカーソルを表示し、ボタンにフォーカスを当てる
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		resume_button.grab_focus()
+	else:
+		# ゲームに戻る時はカーソルをキャプチャ（非表示）にする
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_resume_button_pressed():
+	# ゲームを再開
+	get_tree().paused = false
+	hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_main_menu_button_pressed():
+	# メインメニューに戻る前に必ずポーズを解除
+	get_tree().paused = false
+	hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# 安全にメインメニューシーンへ遷移
+	get_tree().call_deferred("change_scene_to_file", "res://Scene/MainMenu.tscn")
+
+func _on_volume_slider_value_changed(value):
+	# マスター音量の調整
+	var bus_index = AudioServer.get_bus_index("Master")
+	var volume_db = linear_to_db(value / 100.0)
+	AudioServer.set_bus_volume_db(bus_index, volume_db)
+	
+	# 音量が0ならミュートにする
+	if value == 0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
