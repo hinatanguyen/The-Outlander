@@ -533,6 +533,8 @@ shape = SubResource("RectangleShape2D_k73cj")
 
 [node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("portal_spawn_marker")]
 script = ExtResource("17_kkojf")
+next_level_path = "res://Scene/boss_area.tscn"
+enemies_to_defeat = 1
 portal_scene = ExtResource("18_5lb7l")
 portal_spawn_marker = NodePath("../PortalSpawnPoint")
 portal_spawn_position = Vector2(1000, 800)
