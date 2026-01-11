@@ -1,75 +1,40 @@
-extends CanvasLayer
+extends Area2D
 
-@onready var volume_slider = $CenterContainer/Panel/VolumeSlider
-@onready var resume_button = $CenterContainer/Panel/Button
-@onready var main_menu_button = $CenterContainer/Panel/Button2
+# 次のシーンのパスを設定
+@export var next_scene_path: String = "" 
+var is_changing_scene: bool = false
 
 func _ready():
-	hide() 
-	process_mode = Node.PROCESS_MODE_ALWAYS 
-	
-	volume_slider.min_value = 0
-	volume_slider.max_value = 100
-	volume_slider.value = 50
-	
-	resume_button.pressed.connect(_on_resume_button_pressed)
-	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
-	volume_slider.value_changed.connect(_on_volume_slider_value_changed)
-	
-	_on_volume_slider_value_changed(volume_slider.value)
-	
-	# シーン変更を監視し、ポーズメニューを非表示にする
-	get_tree().node_added.connect(_on_scene_changed)
-
-func _on_scene_changed(node):
-	# シーンツリーのルートが変更されたとき、ポーズメニューを非表示にする
-	if node == get_tree().current_scene:
-		hide()
-		get_tree().paused = false
-
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		# Check if any NPC dialogue is active
-		var npcs = get_tree().get_nodes_in_group("npc")
-		var dialogue_active = false
-		for npc in npcs:
-			if npc.has_meta("dialogue_active") or (npc.get("dialogue_active") != null and npc.dialogue_active):
-				dialogue_active = true
-				break
+	# シグナルが接続されていない場合に接続
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 		
-		# Only toggle pause if no dialogue is active
-		if not dialogue_active:
-			toggle_pause()
+	# アニメーションがある場合、デフォルトのアニメーションを再生
+	if has_node("AnimatedSprite2D"):
+		$AnimatedSprite2D.play("default")
 
-func toggle_pause():
-	var new_pause_state = !get_tree().paused
-	get_tree().paused = new_pause_state
-	visible = new_pause_state
+# プレイヤーがポータルに入ったときの処理
+func _on_body_entered(body):
+	if is_changing_scene:
+		return
+		
+	if body.name == "Player" or body.is_in_group("player"):
+		# パスが空の場合は警告
+		if next_scene_path == "":
+			print("警告: 次のシーンのパスが設定されていません！")
+			return
+			
+		is_changing_scene = true
+		# 遅延実行でシーン切り替え
+		call_deferred("change_level")
+
+# シーン変更の実行
+func change_level():
+	if not ResourceLoader.exists(next_scene_path):
+		push_error("シーンが存在しません: ", next_scene_path)
+		return
 	
-	if new_pause_state:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func _on_resume_button_pressed():
-	get_tree().paused = false
-	hide()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func _on_main_menu_button_pressed():
-	# シーンを変更する前にすべてをリセットする
-	visible = false
-	get_tree().paused = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	# 現在のフレーム後にシーン変更が行われるよう、call_deferred を使用する
-	get_tree().call_deferred("change_scene_to_file", "res://Scene/MainMenu.tscn")
-
-func _on_volume_slider_value_changed(value):
-	var bus_index = AudioServer.get_bus_index("Master")
-	var volume_db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(bus_index, volume_db)
+	# 注意: ここにあった CanvasLayer を削除するループは、
+	# Autoload のポーズメニューまで消してしまうため削除しました。
 	
-	if value == 0:
-		AudioServer.set_bus_mute(bus_index, true)
-	else:
-		AudioServer.set_bus_mute(bus_index, false)
+	get_tree().change_scene_to_file(next_scene_path)

@@ -683,6 +683,8 @@ offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.7, 0.7)
+mouse_filter = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="HealthBarFrame" type="TextureRect" parent="World/CanvasLayer/HUD/UI_Container"]
 layout_mode = 0
@@ -734,7 +736,6 @@ position = Vector2(-425, 38.333332)
 position = Vector2(574, -233)
 script = ExtResource("14_w42yd")
 enemy_scene = ExtResource("15_v3n06")
-total_spawns_limit = 20
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner"]
 position = Vector2(-123, -117)
@@ -746,7 +747,6 @@ position = Vector2(197, -100)
 position = Vector2(-47, -536)
 script = ExtResource("14_w42yd")
 enemy_scene = ExtResource("15_v3n06")
-total_spawns_limit = 20
 
 [node name="Marker2D" type="Marker2D" parent="EnemySpawner2"]
 position = Vector2(-226, -9)
