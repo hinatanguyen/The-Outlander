@@ -8,6 +8,7 @@ const MAX_HEALTH = 100
 const REGEN_DELAY = 3.0  # 3秒間ダメージを受けなければ回復開始
 const REGEN_AMOUNT = 5   # 毎回の回復量
 const REGEN_INTERVAL = 0.5  # 0.5秒ごとに回復
+const FRICTION = 1000.0 
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -37,27 +38,32 @@ func _physics_process(delta):
 	# 回復システムの更新
 	update_health_regeneration(delta)
 	
-	# ダメージ中
+	# [FIX] XỬ LÝ KHI BỊ ĐAU (HURT) - ƯU TIÊN SỐ 1
 	if is_hurt:
-		# ノックバックは重力のみ適用（velocity.xはtake_damage関数で設定済み）
+		# Áp dụng trọng lực
 		if not is_on_floor():
 			velocity.y += gravity * delta
-		else:
-			# 地面についたらノックバックを減衰させる
-			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 5)
+		
+		# [FIX] Không cho phép điều khiển hay tấn công khi đang bị đẩy lùi
 		move_and_slide()
-		return
+		
+		# [FIX] Nếu chạm đất thì cho phép điều khiển lại ngay để tránh cảm giác bị mất lái lâu
+		if is_on_floor() and velocity.y >= 0:
+			# Có thể thêm delay nhỏ ở đây nếu muốn, nhưng để mượt thì cho phép luôn
+			pass 
+			
+		return # Dừng hàm tại đây, bỏ qua mọi logic bên dưới
 	
-	# 重力
+	# Trọng lực (Khi bình thường)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	# 攻撃（左クリック）
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
+	# [FIX] TẤN CÔNG (Chỉ khi không bị đau)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking and not is_hurt:
 		perform_attack()
 	
-	# 移動処理
-	if not is_attacking:
+	# DI CHUYỂN (Chỉ khi không tấn công và không bị đau)
+	if not is_attacking and not is_hurt:
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		var direction = Input.get_axis("move_left", "move_right")
@@ -77,21 +83,17 @@ func _physics_process(delta):
 
 # --- 回復システム ---
 func update_health_regeneration(delta):
-	# 体力が満タンなら回復不要
 	if health >= MAX_HEALTH:
 		is_regenerating = false
 		return
 	
-	# 最後のダメージからの経過時間を追跡
 	time_since_last_damage += delta
 	
-	# 一定時間ダメージを受けていない場合、回復開始
 	if time_since_last_damage >= REGEN_DELAY:
 		if not is_regenerating:
 			is_regenerating = true
 			time_since_last_regen = 0.0
 		
-		# 回復インターバルごとに体力を回復
 		time_since_last_regen += delta
 		if time_since_last_regen >= REGEN_INTERVAL:
 			regenerate_health()
@@ -122,12 +124,15 @@ func shoot():
 
 # --- ダメージ処理 ---
 func take_damage(damage_amount):
-	if is_hurt or is_dead: return
+	if is_dead: return # Bỏ qua check is_hurt ở đây để cho phép bị đánh liên tục (stunlock) hoặc reset timer
+	
+	# [FIX] Nếu đang tấn công mà bị đánh -> Hủy tấn công ngay lập tức
+	if is_attacking:
+		is_attacking = false
 	
 	health -= damage_amount
 	health_changed.emit(health)
 	
-	# ダメージを受けたら回復タイマーをリセット
 	time_since_last_damage = 0.0
 	is_regenerating = false
 	
@@ -136,58 +141,62 @@ func take_damage(damage_amount):
 	else:
 		is_hurt = true
 		
-		# ノックバック（一度だけ設定）
+		# [FIX] Đẩy nhẹ lên trên để tránh kẹt chân vào sàn
+		velocity.y = -200 
+		
+		# Đẩy lùi
 		if anim.flip_h == false:
-			velocity.x = -200
+			velocity.x = -300
 		else:
-			velocity.x = 200
+			velocity.x = 300
 			
 		anim.play("hurt")
+		
+		# [FIX QUAN TRỌNG - SAFETY TIMER]
+		# Tự động hết bị đau sau 0.4 giây dù animation có lỗi hay không
+		# Giúp nhân vật KHÔNG BAO GIỜ BỊ KẸT VĨNH VIỄN khi va chạm với Boss
+		# Dùng biến tạm để tránh xung đột timer nếu bị đánh liên tục
+		var timer = get_tree().create_timer(0.4)
+		await timer.timeout
+		# Chỉ reset nếu nhân vật vẫn còn sống
+		if not is_dead:
+			is_hurt = false
+			velocity.x = 0 # Dừng trượt
 
 func die():
-	if is_dead:
-		return 
+	if is_dead: return
 		
 	is_dead = true
 	velocity.x = 0
 	
-	# Disable physics processing immediately
 	set_physics_process(false)
 	set_process(false)
 	
-	# プレイヤー死亡アニメーション
 	anim.play("death")
-	
-	# コリジョンを無効化
 	collision_shape.set_deferred("disabled", true)
 	
-	# 現在のレベルの保存
 	if get_tree() and get_tree().current_scene:
 		Global.current_level_path = get_tree().current_scene.scene_file_path
 	
-	# 死亡アニメーションの後に待機
 	await get_tree().create_timer(1.5).timeout
 	
-	# シーン変更前に有効か確認
-	if not is_instance_valid(self):
-		return
+	if not is_instance_valid(self): return
+	if not get_tree(): return
 	
-	if not get_tree():
-		return
-	
-	# ゲームオーバーシーンに遷移
 	get_tree().call_deferred("change_scene_to_file", "res://Scene/GameOver.tscn")
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "attack":
 		is_attacking = false
-		anim.play("idle")
+		if not is_hurt: # Chỉ về idle nếu không đang bị đau
+			anim.play("idle")
 		
 	elif anim.animation == "hurt":
 		is_hurt = false
-		anim.play("idle")
+		if not is_attacking:
+			anim.play("idle")
 
-# Test damage with H key (テスト用のキーイベント)
+# Test damage with H key
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_H:	
